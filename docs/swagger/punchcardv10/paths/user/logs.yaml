@@ -1,0 +1,151 @@
+get:
+  tags:
+    - mobile-app
+    - user
+  summary: "Get all of the authenticated user's logs"
+  description: |
+    ## Testing
+
+    Please test that the fields are documented properly, that they show the fields that are actually returned. If you test the
+    ability for the user to write a new log, or check in with an exception, come back to this endpoint to verify that
+    the newly generated log message shows up.
+
+    Note: Please test to see if you get a 404 response for a user that does not have any log entries. It should still be 200,
+        but show "num_results": 0 in that case.  Please open an issue if you ever get a 404 response.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: page
+      in: query
+      required: false
+      type: integer
+  responses:
+    200:
+      description: "Successful retrieval of user's logs; note: data is always an array, whether 1 or greater than 1 result"
+      schema:
+        type: object
+        properties:
+          total:
+            type: integer
+            example: 38
+          per_page:
+            type: integer
+            example: 10
+          current_page:
+            type: integer
+            example: 2
+          last_page:
+            type: integer
+            example: 4
+          next_page_url:
+            type: string
+            example: http://companya.punchcardllc.com/api/v1.0/user/logs?page=3
+          prev_page_url:
+            type: string
+            example: http://companya.punchcardllc.com/api/v1.0/user/logs?page=2
+          from:
+            type: integer
+            example:  1
+          to:
+            type: integer
+            example:  10
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: "Successful"
+          num_results:
+            type: integer
+            example: 5
+          data:
+            type: array
+            items:
+              properties:
+                note:
+                  type: string
+                  example: "This is a log note"
+                uniq_id:
+                  type: string
+                  example: "846ebe7a-594b-4085-9f29-7730c0f878c6"
+                "type":
+                  type: string
+                  example: punch-in exception
+                dateTime:
+                  type: string
+                  format: date
+                  example: "2016-10-24 21:50:15"
+                project:
+                    type: object
+                    properties:
+                      uniq_id:
+                        type: string
+                        format: uuid
+                        example: 24de4935-f1ba-38b3-b44e-96fcd8e9ccab
+                      name:
+                        type: string
+                        example: Jacobs Inc
+                      id:
+                        type: integer
+                        example: 2
+    422:
+      $ref: "../../responses.yaml#/responses/BadInputResponse"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+post:
+  tags:
+    - mobile-app
+    - user
+  summary: Write a new note
+  description: |
+      ## Testing
+
+      This endpoint allows a user to write a new free-form note to be saved. This only will work for an authenticated user,
+      saving the note under the authenticated user's ID.
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        description: POST to write note
+        properties:
+          note:
+            type: string
+            example: "Text of the note"
+          uniq_id:
+            type: string
+            format: uuid
+            example: "4dfe39bb-e545-4196-909f-5a4e14d731a8"
+  responses:
+    200:
+      description: Successful note writing
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: Successful
+    422:
+      $ref: "../../responses.yaml#/responses/BadInputResponse"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

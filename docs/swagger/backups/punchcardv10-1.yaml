@@ -1,0 +1,155 @@
+swagger: '2.0'
+
+info:
+  version: v1.0
+  title: Punchcard API
+  description: |
+      **This is the Punchcard API**
+
+      ## Results
+      Most results will return a predictable envelope; Successful responses are usually like this:
+      ```json
+      {
+          "result": "success",
+          "message": "5 records found",
+          "http_code": 200,
+          "data": {
+            ... data object if one, array if many (1) ...
+          }
+      }
+      ```
+
+      If there is only ever a chance that there will be one result, `data` will be a single object, not wrapping in array.
+
+      If there is the potential for more than one result, then `data` will always be an array, even if empty or even if one result is returned.
+
+      ## Paths, Payload and Parameters
+
+      ### Paths
+      This API accepts `path` parameters for GET and DELETE requests.
+
+      ### Payload
+      This API accepts JSON in the body ("payload") for POST and PUT requests
+      **NOTE**: Required Headers:
+          - Content-type: application/json
+          - Accepts: application/json
+
+        Please send both headers with all requests.
+
+      ### Parameters
+      This API uses parameters for pagination, search terms and the ?echo=please functionality.
+
+      ## Errors
+schemes:
+    - https
+host: subdomain.punchcardllc.com
+basePath: /v1.0
+
+paths:
+  '/':
+    get:
+      summary: Root Help
+      description: Get root node for help and documentation instructions
+      responses:
+        200:
+          description: OK
+  '/user':
+    get:
+      summary: View Own Profile
+      description: User views own profile
+      responses:
+        200:
+          description: OK
+        401:
+          description: Not Authenticated
+        403:
+          description: Unauthorized
+    put:
+      summary: Update Own Profile
+      description: User updates own profile
+      responses:
+        200:
+          description: OK
+        401:
+          description: Not Authenticated
+        403:
+          description: Unauthorized
+  '/user/avatar':
+    get:
+      summary: View Own Avatar
+      description: User can view own avatar
+      responses:
+        200:
+          description: OK
+        401:
+          description: Not Authenticated
+        403:
+          description: Unauthorized
+    put:
+      summary: Update Own Avatar
+      description: User updates own avatar
+      responses:
+        200:
+          description: OK
+        401:
+          description: Not Authenticated
+        403:
+          description: Unauthorized
+  '/user/avatar/{uniq_id}':
+    get:
+      tags:
+        - mobile-app
+        - user
+      summary: Any logged in user can view avatar by uniq_id
+      description: Any logged in user can view avatar by uniq_id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: uniq_id
+          in: path
+          description: The uniq_id (UUID) of the user
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/responses/SuccessfulResponse"
+
+tags:
+  - name: mobile-app
+    description: End points for mobile
+  - name: web-app
+    description: End points for web-app
+  - name: clients
+    description: Client end points for the web app
+  - name: projects
+    description: 'Project end points: some active'
+  - name: tasks
+    description: Tasks end points; some active
+  - name: user
+    description: User end points
+
+responses:
+  SuccessfulResponse:
+    description: OK
+    schema:
+      $ref: "#/definitions/SuccessProps"
+definitions:
+  SuccessProps:
+    description: Successful call properties
+    properties:
+      http_code:
+        type: integer
+        example: 200
+      result:
+        type: string
+        example: success
+      message:
+        type: string
+        example: successfully retrieved 1 record
+      mydata:
+        type: string
+        example: An object or an array, depending on results...

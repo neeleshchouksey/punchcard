@@ -1,0 +1,7 @@
+                                        User Super-User Admin Client-Admin Super-Admin
+IHOS Client Reports (100 level reports)                                     X
+Company Reports     (200 level reports)                  X     X            X
+Project Reports     (300 level reports)       X          X     X
+Employee Reports    (400 level reports)       X          X     X
+Payroll Reports     (500 level reports)
+Insurance Reports   (600 level reports)

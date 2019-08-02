@@ -1,0 +1,29 @@
+get:
+  tags:
+    - mobile-app
+    - clients
+    - images
+  summary: View Own Logo
+  description: |
+    ## Testing
+
+    Please test this endpoint with several users from several different clients.
+
+  produces:
+    - image/png
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: Results of a user viewing own client logo
+      schema:
+        type: file
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+    404:
+      $ref: "../../responses.yaml#/responses/NotFoundResponse"

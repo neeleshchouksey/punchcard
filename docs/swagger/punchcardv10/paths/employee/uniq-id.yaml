@@ -1,0 +1,46 @@
+get:
+  tags:
+    - mobile-app
+    - superuser
+  summary: View Employee Profile (as Superuser or above)
+  description: |
+    ## Testing
+
+    This endpoint shows a superuser or above an employee in their company's profile.
+
+    - must be superuser or better
+    - user they are viewing must be in their own company
+    - not updateable (just a GET)
+
+    Please make sure all of the fields listed below exist in the result.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  responses:
+    200:
+      description: Results of viewing an employee profile
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: successfully retrieved 1 record
+          data:
+            $ref: "../../definitions/user/UserDefinition.yaml#/User"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

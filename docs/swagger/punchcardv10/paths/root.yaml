@@ -1,0 +1,7 @@
+get:
+  summary: Root Help
+  description: Get root node for help and documentation instructions
+  responses:
+    200:
+      $ref: "../responses.yaml#/responses/SuccessfulResponse"
+

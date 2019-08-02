@@ -1,0 +1,14 @@
+NotFoundResponseProps:
+  description: Not Found Response's properties
+  properties:
+    http_code:
+      type: integer
+      example: 404
+    result:
+      type: string
+      example: error
+    message:
+      type: string
+      example: Not Found
+    data:
+      type: array

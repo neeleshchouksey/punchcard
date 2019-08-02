@@ -1,0 +1,35 @@
+responses:
+  SuccessfulResponse:
+    description: OK
+    schema:
+      $ref: "definitions/props/SuccessfulResponseProps.yaml#/SuccessfulResponseProps"
+  ErrorResponse:
+    description: Internal Server Error
+    schema:
+      $ref: "definitions/props/ErrorResponseProps.yaml#/ErrorResponseProps"
+  NotAuthenticatedResponse:
+    description: Not Authenticated
+    schema:
+      $ref: "definitions/props/NotAuthenticatedResponseProps.yaml#/NotAuthenticatedResponseProps"
+  NotAuthorizedResponse:
+    description: Not Authorized
+    schema:
+      $ref: "definitions/props/NotAuthorizedResponseProps.yaml#/NotAuthorizedResponseProps"
+  NotFoundResponse:
+    description: Not Found
+    schema:
+      $ref: "definitions/props/NotFoundResponseProps.yaml#/NotFoundResponseProps"
+  BadInputResponse:
+    description: Bad Input
+    schema:
+      description: "Bad Input Response's properties. When safe to do so, `message` will include details of the bad input."
+      properties:
+        http_code:
+          type: integer
+          example: 422
+        result:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Bad Input details

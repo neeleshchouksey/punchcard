@@ -1,0 +1,38 @@
+get:
+  tags:
+    - web-app
+    - admin
+    - projects
+  summary: View ALL project as admin or superadmin. Admin sees ALL projects but Only in own company.
+  description: |
+    ## Testing
+
+    Show ALL projects in client.  Since this is as an admin, this should be ALL the projects in the company.
+    Please compare to the /dev/clients/ system.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: Ok; receives a list of a projects for the client/company
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: Successfully retrieved 10 projects
+          data:
+            $ref: "../../../definitions/projects/ProjectsDefinition.yaml#/Projects"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"

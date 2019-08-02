@@ -1,0 +1,253 @@
+post:
+  tags:
+    - web-app
+    - clients
+  summary: Insert a client, optionally as a child of an existing client
+  description: |
+
+    ## Testing
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        description: POST to create
+        required:
+        - subdomain
+        - name
+        - address1
+        - city
+        - state
+        - zip
+        - status
+        - uniq_id
+        properties:
+          uniq_id:
+            type: string
+            description: The UUID/uniq_id of the Project
+            example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+          subdomain:
+            type: string
+            example: companyf
+          name:
+            type: string
+            example: Lindgren-Stiedemann
+          fein:
+            type: string
+            example: 9027668965
+          address1:
+            type: string
+            example: 461 Stoltenberg Harbors
+          address2:
+            type: string
+            example: 379 Jacobson Creek
+          city:
+            type: string
+            example: Alvenastad
+          state:
+            type: string
+            example: ME
+          zip:
+            type: string
+            example: 50873
+          country:
+            type: string
+            example: US
+          county:
+            type: string
+            example: South
+          status:
+            type: string
+            example: active
+  responses:
+    200:
+      description: Client is created
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: "Updated client successfully"
+          data:
+            type: object
+            properties:
+              uniq_id:
+                type: string
+                example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+              subdomain:
+                type: string
+                example: companyf
+              name:
+                type: string
+                example: "Lindgren-Stiedemann"
+              fein:
+                type: string
+                example: 9027668965
+              address1:
+                type: string
+                example: 461 Stoltenberg Harbors
+              address2:
+                type: string
+                example: 379 Jacobson Creek
+              city:
+                type: string
+                example: Alvenastad
+              state:
+                type: string
+                example: ME
+              zip:
+                type: string
+                example: 50873
+              country:
+                type: string
+                example: US
+              county:
+                type: string
+                example: South
+              status:
+                type: string
+                example: active
+    422:
+      $ref: "../../../responses.yaml#/responses/BadInputResponse"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"
+
+put:
+  tags:
+    - web-app
+    - clients
+  summary: Update a client
+  description: |
+
+    ## Testing
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        description: PUT to update
+        required:
+        - subdomain
+        - name
+        - address1
+        - city
+        - state
+        - zip
+        - status
+        - uniq_id
+        properties:
+          uniq_id:
+            type: string
+            description: The UUID/uniq_id of the Project
+            example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+          subdomain:
+            type: string
+            example: companyf
+          name:
+            type: string
+            example: Lindgren-Stiedemann
+          fein:
+            type: string
+            example: 9027668965
+          address1:
+            type: string
+            example: 461 Stoltenberg Harbors
+          address2:
+            type: string
+            example: 379 Jacobson Creek
+          city:
+            type: string
+            example: Alvenastad
+          state:
+            type: string
+            example: ME
+          zip:
+            type: string
+            example: 50873
+          country:
+            type: string
+            example: US
+          county:
+            type: string
+            example: South
+          status:
+            type: string
+            example: active
+  responses:
+    200:
+      description: Client is updated
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: "Updated client successfully"
+          data:
+            type: object
+            properties:
+              uniq_id:
+                type: string
+                example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+              subdomain:
+                type: string
+                example: companyf
+              name:
+                type: string
+                example: "Lindgren-Stiedemann"
+              fein:
+                type: string
+                example: 9027668965
+              address1:
+                type: string
+                example: 461 Stoltenberg Harbors
+              address2:
+                type: string
+                example: 379 Jacobson Creek
+              city:
+                type: string
+                example: Alvenastad
+              state:
+                type: string
+                example: ME
+              zip:
+                type: string
+                example: 50873
+              country:
+                type: string
+                example: US
+              county:
+                type: string
+                example: South
+              status:
+                type: string
+                example: active
+    422:
+      $ref: "../../../responses.yaml#/responses/BadInputResponse"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"

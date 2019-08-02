@@ -1,0 +1,36 @@
+get:
+  tags:
+    - mobile-app
+    - clients
+    - images
+  summary: Any logged in user can view logo by uniq_id
+  description: |
+    ## Testing
+
+    Please test this endpoint with several users, using different `uniq_id`.  Please find 5-7 different `uniq_id`
+    from clients and try them, using a variety of user roles and status. For example, a test story might cover:
+
+      1. User who has 'status' = 'active' and 'role' = 'user' views avatar from user who is 'status' = 'active' and 'role' = 'user'
+      1. User who has 'status' = 'active' and 'role' = 'superuser' views avatar from user who is 'status' = 'active' and 'role' = 'user'
+      1. ... etc
+
+
+  produces:
+    - image/png
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      description: The uniq_id (UUID) of the client
+      required: true
+      type: string
+  responses:
+    200:
+      description: The client's logo
+      schema:
+        type: file
+    404:
+      $ref: "../../responses.yaml#/responses/NotFoundResponse"

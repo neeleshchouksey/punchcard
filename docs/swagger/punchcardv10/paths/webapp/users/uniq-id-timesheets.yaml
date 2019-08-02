@@ -1,0 +1,73 @@
+get:
+  tags:
+    - web-app
+    - ihos-app
+    - user
+  summary: View one user as admin or superadmin. Sees users only in own company.
+  description: |
+    ## Testing
+
+    Show one user.  Since this is as an admin, this should be ALL the users in the company.
+    Please compare to the /dev/clients/ system.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  responses:
+    200:
+      description: Ok; receives a list of a projects for the client/company
+      schema:
+        type: object
+        properties:
+          total:
+            type: integer
+            example: 38
+          per_page:
+            type: integer
+            example: 10
+          current_page:
+            type: integer
+            example: 2
+          last_page:
+            type: integer
+            example: 4
+          next_page_url:
+            type: string
+            example: http://companya.punchcardllc.com/api/v1.0/user/logs?page=3
+          prev_page_url:
+            type: string
+            example: http://companya.punchcardllc.com/api/v1.0/user/logs?page=2
+          from:
+            type: integer
+            example:  1
+          to:
+            type: integer
+            example:  10
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: "Successful"
+          num_results:
+            type: integer
+            example: 5
+          data:
+            $ref: "../../../definitions/checks/TimesheetDefinition.yaml#/Timesheet"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"

@@ -1,0 +1,42 @@
+{
+    "base": "stations",
+    "clouds": {
+        "all": 75
+    },
+    "cod": 200,
+    "coord": {
+        "lat": 33.02,
+        "lon": -96.7
+    },
+    "dt": 1481656560,
+    "id": 4719457,
+    "main": {
+        "humidity": 76,
+        "pressure": 1018,
+        "temp": 56.66,
+        "temp_max": 59,
+        "temp_min": 53.6
+    },
+    "name": "Plano",
+    "sys": {
+        "country": "US",
+        "id": 2594,
+        "message": 0.0084,
+        "sunrise": 1481635317,
+        "sunset": 1481671285,
+        "type": 1
+    },
+    "visibility": 9656,
+    "weather": [
+        {
+            "description": "haze",
+            "icon": "50d",
+            "id": 721,
+            "main": "Haze"
+        }
+    ],
+    "wind": {
+        "deg": 30,
+        "speed": 9.17
+    }
+}

@@ -1,0 +1,70 @@
+swagger: '2.0'
+info:
+  version: v1.0
+  title: Punchcard API
+  description: |
+      **This is the Punchcard API**
+
+      ## Results
+      Most results will return a predictable envelope; Successful responses are usually like this:
+      ```json
+      {
+          "result": "success",
+          "message": "5 records found",
+          "http_code": 200,
+          "data": {
+            ... data object if one, array if many (1) ...
+          }
+      }
+      ```
+
+      If there is only ever a chance that there will be one result, `data` will be a single object, not wrapping in array.
+
+      If there is the potential for more than one result, then `data` will always be an array, even if empty or even if one result is returned.
+
+      ## Paths, Payload and Parameters
+
+      ### Paths
+      This API accepts `path` parameters for GET and DELETE requests.
+
+      ### Payload
+      This API accepts JSON in the body ("payload") for POST and PUT requests
+      **NOTE**: Required Headers:
+          - Content-type: application/json
+          - Accepts: application/json
+
+        Please send both headers with all requests.
+
+      ### Parameters
+      This API uses parameters for pagination, search terms and the ?echo=please functionality.
+
+      ## Errors
+host: <company sub>.punchcardllc.com
+basePath: /v1.0
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+tags:
+  - name: mobile-app
+    description: End points for mobile
+  - name: web-app
+    description: End points for web-app
+  - name: clients
+    description: Client end points for the web app
+  - name: projects
+    description: 'Project end points: some active'
+  - name: tasks
+    description: Tasks end points; some active
+  - name: user
+    description: User end points
+paths:
+  '/':
+    get:
+      description: Get root node for help and documentation instructions
+      responses:
+        200:
+          description: Success
+

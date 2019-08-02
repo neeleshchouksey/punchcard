@@ -1,0 +1,16 @@
+ErrorResponseProps:
+  description: Error call properties
+  properties:
+    http_code:
+      type: integer
+      example: 500
+    result:
+      type: string
+      example: error
+    message:
+      type: string
+      example: error
+    data:
+      type: array
+
+

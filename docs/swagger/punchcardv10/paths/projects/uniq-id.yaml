@@ -1,0 +1,36 @@
+get:
+  tags:
+    - mobile-app
+    - projects
+  summary: View one project user has access to view
+  description: |
+    ## Testing
+
+    Show one project. This should be only a project the user is able to view, based on:
+      - User is 'added' to the project by a superuser or above.
+      - User is 'active'
+
+    This might be difficult to test right now, as you will need to log in as a `superuser`, add users to projects in
+    that endpoint, then log in as each user, and verify that they are on the project.  Then, log in as the `superuser`
+    and remove them, then log in and verify they are no longer able to see the project.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  responses:
+    200:
+      $ref: "../../responses.yaml#/responses/SuccessfulResponse"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

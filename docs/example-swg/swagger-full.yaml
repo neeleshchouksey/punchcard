@@ -1,0 +1,3049 @@
+swagger: '2.0'
+info:
+  title: InverseAPP's Punchcard API
+  version: '1.0'
+host: dev-api.punchcard.com
+basePath: /v1.0
+schemes:
+  - http
+paths:
+  '/clients/logo/{uniq_id}':
+    get:
+      tags:
+        - clients
+        - web-app
+      summary: Show a logo
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Unique UUID of client logo to request
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Authenticated; Shows a logo
+          schema:
+            $ref: '#/definitions/ApiResultWithRaw'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+  /clients/logo/:
+    put:
+      tags:
+        - clients
+        - web-app
+      summary: Client updates logo; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Clients_AdminLogoPut'
+      responses:
+        '200':
+          description: Authenticated; Client updates their logo
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPut_Client_Logo'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/clients/superadmin/{uniq_id}/':
+    get:
+      tags:
+        - clients
+        - web-app
+      summary: 'Find a client by ID, superadmin rights'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: ID of client to request
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Authenticated;Pull client list
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessGet_Client_Superadmin_Uniq_id'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ExceptionsFailUnexpectedError'
+    put:
+      tags:
+        - clients
+        - web-app
+      summary: Update a client; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: ID of client to update/put
+          required: true
+          type: integer
+          format: int64
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Clients_SuperadminPut'
+      responses:
+        '200':
+          description: Authenticated; Update a client
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPut_Client_Superadmin'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    delete:
+      tags:
+        - clients
+        - web-app
+      summary: Delete; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: Unique UUID of client to delete
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Delete a client
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessDelete_Client_Superadmin'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /clients/superadmin/:
+    get:
+      tags:
+        - clients
+        - web-app
+      summary: Find all accessible clients for authenticated superadmin
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          description: field to sort results on
+          required: false
+          type: string
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+          format: int32
+      responses:
+        '200':
+          description: Authenticated;Pull clients list
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessGet_Client_Superadmin'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    post:
+      tags:
+        - clients
+        - web-app
+      summary: Add a client; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Clients_SuperadminPost'
+      responses:
+        '200':
+          description: Authenticated; Create a client
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPost_Client_Superadmin'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/projects/admin/{uniq_id}/':
+    get:
+      tags:
+        - projects
+        - web-app
+      summary: 'Find a project by ID, admin rights'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: ID of project to request
+          required: true
+          type: integer
+          format: int64
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_field
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+          format: int32
+      responses:
+        '200':
+          description: Authenticated;Pull project list
+          schema:
+            $ref: '#/definitions/Models_Projects_Admin'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    delete:
+      tags:
+        - projects
+        - web-app
+      summary: Delete; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: id of project to delete
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Delete a project
+          schema:
+            $ref: '#/definitions/Models_ApiResult_SuccessDelete'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /projects/admin/:
+    get:
+      tags:
+        - projects
+        - web-app
+      summary: Find all accessible projects for authenticated admin
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+          format: int32
+      responses:
+        '200':
+          description: Authenticated;Pull project list
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Models_Projects_Admin'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    post:
+      tags:
+        - projects
+        - web-app
+      summary: Add a project; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Projects_AdminPost'
+      responses:
+        '200':
+          description: Authenticated; Create a project
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPost'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/projects/admin/{id}/':
+    put:
+      tags:
+        - projects
+        - web-app
+      summary: 'Update a project; w/Authentication w/Authorization'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization1
+          in: header
+          description: Auth Header
+          type: authHeader
+        - name: uniq_id
+          in: path
+          description: ID of project to update/put
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Projects_AdminPut'
+      responses:
+        '200':
+          description: Authenticated; Update a project
+          schema:
+            items:
+              $ref: '#/definitions/ApiResultSuccessPut'
+        '400':
+          description: Bad input
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /projects/admin/share/:
+    post:
+      tags:
+        - projects
+      summary: Share a project; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Projects_AdminPost'
+      responses:
+        '200':
+          description: Authenticated; Create a project
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPost'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  /projects/superuser/:
+    post:
+      tags:
+        - projects
+        - web-app
+      summary: Link a user to a project; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Projects_SuperuserPost'
+      responses:
+        '200':
+          description: Authenticated; Create a project
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPost'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/projects/superuser/{id}/':
+    delete:
+      tags:
+        - projects
+        - web-app
+      summary: Delete; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: id of project to delete
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Delete a project
+          schema:
+            $ref: '#/definitions/Models_ApiResult_SuccessDelete'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  '/projects/{uniq_id}/':
+    get:
+      tags:
+        - projects
+        - mobile-app
+      summary: Get project for authenticated user
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: ''
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Authenticated user pulls a project
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessGetOne_Projects'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /projects/:
+    get:
+      tags:
+        - projects
+        - mobile-app
+      summary: Get all projects authenticated user can access
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_field
+          in: query
+          description: field to sort results on
+          required: false
+          type: string
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Authenticated pulls own project list
+          schema:
+            type: array
+            $ref: '#/definitions/Swagger_Spec_SuccessGet_Projects'
+        '400':
+          description: Bad input
+          schema:
+            type: array
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            type: array
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            type: array
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            type: array
+            $ref: '#/definitions/ExceptionsFailNotFound'
+  '/tasks/admin/{id}/':
+    get:
+      tags:
+        - tasks
+        - web-app
+      summary: 'Find a task by ID, admin rights'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: ID of task to request
+          required: true
+          type: integer
+          format: int64
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_field
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+          format: int32
+      responses:
+        '200':
+          description: Authenticated;Pull task by id
+          schema:
+            $ref: '#/definitions/Models_Tasks_AdminGet'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    put:
+      tags:
+        - tasks
+        - web-app
+      summary: Update a task; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Tasks_AdminPut'
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: name
+          in: formData
+          description: name of task to update
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Update a task
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPut'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    delete:
+      tags:
+        - tasks
+        - web-app
+      summary: Delete; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: id of task to delete
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Delete a task
+          schema:
+            $ref: '#/definitions/Models_ApiResult_SuccessDelete'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /tasks/admin/:
+    get:
+      tags:
+        - tasks
+        - web-app
+      summary: Find all accessible tasks for authenticated admin
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+          format: int32
+      responses:
+        '200':
+          description: Authenticated;Pull task list
+          schema:
+            $ref: '#/definitions/Models_Tasks_AdminGet'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+    post:
+      tags:
+        - tasks
+        - web-app
+      summary: Add a task; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Tasks_AdminPost'
+      responses:
+        '200':
+          description: Authenticated; Create a task
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPost'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/tasks/admin/{id}/add-user/':
+    put:
+      tags:
+        - tasks
+        - web-app
+      summary: Add a user to a task; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Library_TasksAdminAddUser'
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Authenticated; Update a task
+        '400':
+          description: Bad input
+        '401':
+          description: Unauthenticated; must authenticate
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  '/tasks/admin/{tid}/user/{id}':
+    delete:
+      tags:
+        - tasks
+        - web-app
+      summary: Delete; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: id of task to delete
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Delete a user from a task
+          schema:
+            $ref: '#/definitions/ApiResultSuccessDelete'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  '/tasks/{id}/users/':
+    get:
+      tags:
+        - tasks
+        - web-app
+        - mobile-app
+      summary: Get all users in a task the authenticated SuperUser can view
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_field
+          in: query
+          description: field to sort results on
+          required: false
+          type: string
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Authenticated;
+          schema:
+            type: array
+            $ref: '#/definitions/Models_Tasks_UserGet'
+        '400':
+          description: Bad input
+        '401':
+          description: Unauthenticated; must authenticate
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /tasks/superuser/:
+    post:
+      tags:
+        - tasks
+        - web-app
+        - mobile-app
+      summary: Link a user to a task; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Tasks_SuperuserPost'
+      responses:
+        '200':
+          description: Authenticated; Create a task
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPost'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/tasks/superuser/{id}/':
+    delete:
+      tags:
+        - tasks
+        - web-app
+      summary: Delete; w/Authentication & w/Authorization
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: id of task to delete
+          required: true
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Authenticated; Delete a Task
+          schema:
+            $ref: '#/definitions/Models_ApiResult_SuccessDelete'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  '/tasks/{id}/':
+    get:
+      tags:
+        - tasks
+        - mobile-app
+      summary: Get task for authenticated user
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: ''
+          required: true
+          type: integer
+          format: int64
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+          format: int32
+      responses:
+        '200':
+          description: Authenticated;
+          schema:
+            $ref: '#/definitions/Models_Tasks_UserGet'
+        '400':
+          description: Bad input
+        '401':
+          description: Unauthenticated; must authenticate
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /tasks/:
+    get:
+      tags:
+        - tasks
+        - mobile-app
+      summary: Get all tasks authenticated user can access
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_field
+          in: query
+          description: field to sort results on
+          required: false
+          type: string
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Authenticated;
+          schema:
+            type: array
+            $ref: '#/definitions/Models_Tasks_UserGet'
+        '400':
+          description: Bad input
+        '401':
+          description: Unauthenticated; must authenticate
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /user/:
+    get:
+      tags:
+        - user
+        - mobile-app
+      summary: Get own profile
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Authenticated; Own Profile
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessGet_User'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+    put:
+      tags:
+        - user
+        - mobile-app
+      summary: User updates own profile; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Users_UserPut'
+      responses:
+        '200':
+          description: Authenticated; User Updated own profile
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPut_User'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/user/avatar/{uniq_id}/':
+    get:
+      tags:
+        - user
+        - mobile-app
+      summary: View user avatar can access
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: uniq_id
+          in: path
+          description: User uniq_id (uuid)
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'Success, show avatar'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+  /user/badge/:
+    get:
+      tags:
+        - user
+        - mobile-app
+      summary: Get badge for authenticated user
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'Success, show badge'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /user/avatar/:
+    put:
+      tags:
+        - user
+        - mobile-app
+      summary: User updates own avatar; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Users_UserAvatarPut'
+      responses:
+        '200':
+          description: Authenticated; User updated own avatar
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPut_User_Avatar'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  /user/admin/:
+    post:
+      tags:
+        - user
+        - web-app
+      summary: Add a user; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Users_AdminPost'
+      responses:
+        '200':
+          description: Authenticated; Create a new user
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPost'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+  '/user/check/{type}/':
+    get:
+      tags:
+        - user
+        - mobile-app
+      summary: Returns which task or project viewing user is checked into
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: type
+          in: path
+          description: Either project or task
+          required: true
+          type: string
+      responses:
+        '200':
+          description: >-
+            Authenticated;Returns information about task or project viewing user
+            is checked into
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessGet_User_Check'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+  /user/check/:
+    put:
+      tags:
+        - user
+        - mobile-app
+      summary: 'Authenticated user checks out of project|task {uniq_id}'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Checks_CheckPut'
+      responses:
+        '200':
+          description: Authenticated; Checkout
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPut_User_Check'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+    post:
+      tags:
+        - user
+        - mobile-app
+        - web-app
+      summary: 'Authenticated user checks into a project|task {id}'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Checks_CheckPost'
+      responses:
+        '200':
+          description: Authenticated; Add a checkin
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPost_User_Check'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /superuser/check/:
+    put:
+      tags:
+        - user
+        - mobile-app
+        - web-app
+      summary: 'Authenticated superuser checks another user out of project|task {id}'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Checks_CheckPut'
+      responses:
+        '200':
+          description: Authenticated superuser; Check another person out
+          schema:
+            $ref: '#/definitions/ApiResultSuccessPut'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+    post:
+      tags:
+        - user
+        - mobile-app
+      summary: 'Authenticated superuser checks another user into a project|task {id}'
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_Checks_CheckPost'
+      responses:
+        '200':
+          description: Authenticated; Add a checkin
+          schema:
+            items:
+              $ref: '#/definitions/ApiResultSuccessPost'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            items:
+                $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            items:
+              $ref: '#/definitions/ExceptionsFailNotFound'
+        default:
+          description: Unexpected error
+  /user/logs/:
+    get:
+      tags:
+        - user
+        - mobile-app
+      summary: An authenticated user gets all own log records
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+        - name: sort_field
+          in: query
+          description: field to sort results on
+          required: false
+          type: string
+        - name: sort_order
+          in: query
+          description: order of results
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Authenticated;Pull user list
+          schema:
+            type: array
+            $ref: '#/definitions/Swagger_Spec_SuccessGet_User_Logs'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ExceptionsFailNotFound'
+    post:
+      tags:
+        - user
+        - mobile-app
+      summary: User adds a log entry; w/Authentication & w/Authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Models_UserLogs_UserPost'
+      responses:
+        '200':
+          description: Authenticated; Create a log/note
+          schema:
+            $ref: '#/definitions/Swagger_Spec_SuccessPost_User_Logs'
+        '400':
+          description: Bad input
+          schema:
+            $ref: '#/definitions/ExceptionsFailBadInput'
+        '401':
+          description: Unauthenticated; must authenticate
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthentication'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ExceptionsFailAuthorization'
+        default:
+          description: Unexpected error
+definitions:
+  ExceptionsLeftoverValidationException:
+    description: ApiException for 500 Unexpected Error
+    properties:
+      result:
+        example: error
+      message:
+        example: 'Unknown fields: field'
+      http_code:
+        example: '400'
+  ExceptionsNoRoutePermissionsSetUp:
+    description: >-
+      ApiException for 403 Not Authorized because the route was set up
+      incorrectly
+    properties:
+      result:
+        example: error
+      message:
+        example: No permissions data found for 'route'
+      http_code:
+        example: '401'
+  ExceptionsNoRouteValidationSetUpException:
+    description: ApiException for 403 No Validation set up
+    properties:
+      result:
+        example: error
+      message:
+        example: No validation data found for '/v1.0/route/'
+      http_code:
+        example: '403'
+  ExceptionsFailAlreadyCheckedIn:
+    description: ApiException for 400 Checkin Failure (already checked in)
+    properties:
+      result:
+        example: error
+      message:
+        example: Checkin failed; already checked in
+      http_code:
+        example: '400'
+  ExceptionsFailAuthentication:
+    description: ApiException for 401 Authentication
+    properties:
+      result:
+        example: error
+      message:
+        example: Please authenticate
+      http_code:
+        example: '401'
+  ExceptionsFailAuthorization:
+    description: ApiException for 403 Forbidden
+    properties:
+      result:
+        example: error
+      message:
+        example: Forbidden
+      http_code:
+        example: '403'
+  ExceptionsFailBadInput:
+    description: >-
+      ApiException for 400 Bad Input; Sets stringified JSON, returns stringified
+      JSON
+    properties:
+      result:
+        example: error
+      message:
+        example: Bad Input
+      http_code:
+        example: '400'
+  ExceptionsFailNotCheckedIn:
+    description: ApiException for 400 Checkin Failure (not checked in)
+    properties:
+      result:
+        example: error
+      message:
+        example: Checkin failed; not checked in
+      http_code:
+        example: '400'
+  ExceptionsFailNotFound:
+    description: ApiException for 404 Not Found
+    properties:
+      result:
+        example: error
+      message:
+        example: Not Found
+      http_code:
+        example: '404'
+  ExceptionsFailNotInsideGeofence:
+    description: ApiException for 400 Check in/out Failure (not inside geofence)
+    properties:
+      result:
+        example: error
+      message:
+        example: Check in/out failed; not inside geofence
+      http_code:
+        example: '400'
+  ExceptionsFailUnexpectedError:
+    description: ApiException for 500 Unexpected Error
+    properties:
+      result:
+        example: error
+      message:
+        example: Unexpected Error
+      http_code:
+        example: '500'
+  Authentication:
+    description: MIDDLEWARE Authentication
+  Authorization:
+    description: Authorization set up in middleware
+    properties:
+      _user:
+        description: >-
+          Stores passed in authentication data this class uses to set up
+          authorization
+        format: ''
+  Library_Validation_LatitudeException:
+    description: Exception for a malformed UUID
+  Library_Validation_LongitudeException:
+    description: Exception for a malformed UUID
+  Library_Validation_UuidException:
+    description: Exception for a malformed UUID
+  Models_ApiModel:
+    description: Super class for all models
+  Models_ApiResult_ApiResult:
+    description: Super class for ApiResult return messages
+  ApiResultExceptionResponse:
+    description: Not for throwing; for sending back a formatted exception response
+    properties:
+      result:
+        example: error
+      message:
+        example: error
+      http_code:
+        example: '400'
+  Models_ApiResult_Success:
+    description: Generic ApiResponse for Success
+    $ref: '#/definitions/Models_ApiResult_ApiResult'
+  Models_ApiResult_SuccessDelete:
+    description: ApiResponse for a Successful DELETE
+    properties:
+      num_deleted:
+        example: '3'
+      message:
+        example: Deleted successfully
+      result:
+        example: success
+      http_code:
+        example: '200'
+    $ref: '#/definitions/Models_ApiResult_Success'
+  Models_ApiResult_SuccessGet:
+    description: ApiResponse for a Successful GET
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+    $ref: '#/definitions/Models_ApiResult_Success'
+  Models_ApiResult_SuccessPost:
+    description: ApiResponse for a Successful POST
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+    $ref: '#/definitions/Models_ApiResult_Success'
+  Models_ApiResult_SuccessPut:
+    description: ApiResponse for a Successful PUT
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+    $ref: '#/definitions/Models_ApiResult_Success'
+  Models_ApiResult_UserCheckedInGet:
+    description: ApiResponse for a GET that tells the user whether they are logged in
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+    $ref: '#/definitions/Models_ApiResult_UserCheckedInGet'
+  Swagger_Spec_SuccessDelete_Client_Superadmin:
+    description: Response Successful DELETE for /<v>/clients/superadmin/<uniq_id>/
+    properties:
+      result:
+        example: success
+      message:
+        example: Client deleted
+      num_deleted:
+        example: '1'
+      http_code:
+        example: '200'
+  Swagger_Spec_SuccessGet_Client_Superadmin_Uniq_id:
+    description: Response Successful GET for /<v>/clients/superadmin/<uniq_id>/
+    properties:
+      result:
+        example: success
+      message:
+        example: Retrieved 1 client
+      num_results:
+        example: '1'
+      http_code:
+        example: '200'
+      data:
+        $ref: '#/definitions/Models_Clients_SuperadminGet'
+  Swagger_Spec_SuccessGet_Client_Superadmin:
+    description: Response Successful GET for /<v>/clients/superadmin/
+    properties:
+      result:
+        example: success
+      message:
+        example: 'Retrieved # clients'
+      num_results:
+        example: '1'
+      http_code:
+        example: '200'
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Models_Clients_SuperadminGet'
+  Swagger_Spec_SuccessPut_Client_Superadmin:
+    description: Response Successful PUT for /<v>/clients/superadmin/<uniq_id>/
+    properties:
+      result:
+        example: success
+      message:
+        example: Updated 1 client
+      num_updated:
+        example: '1'
+      http_code:
+        example: '200'
+  Swagger_Spec_SuccessPut_Client_Logo:
+    description: Response Successful PUT for /<v>/clients/logo/
+    properties:
+      result:
+        example: success
+      message:
+        example: Logo updated
+      http_code:
+        example: '200'
+  Models_Clients_AdminLogoPut:
+    description: PUT for /<v>/clients/logo/
+    properties:
+      image:
+        example: <base64encoded_image>
+  Swagger_Spec_SuccessPost_Client_Superadmin:
+    description: Response Successful POST for /<v>/clients/superadmin/<uniq_id>/
+    properties:
+      result:
+        example: success
+      message:
+        example: Added a client
+      num_created:
+        example: '1'
+      http_code:
+        example: '200'
+  Swagger_Spec_SuccessGet_Projects:
+    description: Response Successful GET for /<v>/project/<uniq_id>/
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+      num_results:
+        example: '5'
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Models_Projects_UserGet'
+  Swagger_Spec_SuccessGetOne_Projects:
+    description: Response Successful GET for /<v>/projects/
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+      num_results:
+        example: '5'
+      data:
+        $ref: '#/definitions/Models_Projects_UserGetOne'
+  Swagger_Spec_SuccessGet_User_Check:
+    description: Response Successful GET for /<v/>/user/
+    properties:
+      result:
+        example: success
+      message:
+        example: You are/are not checked-in
+      http_code:
+        example: '200'
+      uniq_id:
+        description: If checked in (only)
+        example: 846ebe7a-594b-4085-9f29-7730c0f878c6
+  Swagger_Spec_SuccessPost_User_Check:
+    description: Response Successful POST for /<v/>/user/check/
+    properties:
+      result:
+        example: success
+      message:
+        example: checked-in
+      http_code:
+        example: '200'
+  Swagger_Spec_SuccessPut_User_Check:
+    description: Response Successful PUT for /<v/>/user/check/
+    properties:
+      result:
+        example: success
+      message:
+        example: checked-out
+      http_code:
+        example: '200'
+  Swagger_Spec_SuccessGet_User_Logs:
+    description: Response Successful GET for /<v/>/user/logs/
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+      num_results:
+        example: '5'
+      data:
+        $ref: '#/definitions/Models_UserLogs_UserGet'
+  Swagger_Spec_SuccessPost_User_Logs:
+    description: Response Successful POST (adding) for /<v/>/user/logs/
+    properties:
+      result:
+        example: success
+      message:
+        example: Log successful
+      http_code:
+        example: '200'
+      num_created:
+        example: '1'
+  Swagger_Spec_SuccessGet_User:
+    description: Response Successful GET for /<v/>/user/
+    properties:
+      result:
+        example: success
+      message:
+        example: Successful!
+      http_code:
+        example: '200'
+      num_results:
+        example: '5'
+      data:
+        $ref: '#/definitions/Models_Users_ViewingUserGet'
+  Swagger_Spec_SuccessPut_User:
+    description: Response Successful GET for /<v/>/user/
+    properties:
+      result:
+        example: success
+      message:
+        example: Profile update successful
+      http_code:
+        example: '200'
+      num_results:
+        example: '5'
+  Swagger_Spec_SuccessPut_User_Avatar:
+    description: Response Successful PUT for /<v/>/user/avatar/
+    properties:
+      result:
+        example: success
+      message:
+        example: Avatar update successful
+      http_code:
+        example: '200'
+  Models_Checks_AlreadyTest:
+    description: Checks/AlreadyTest object model
+    properties:
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      type:
+        description: task|project
+        type: string
+        example: project
+  Models_Checks_Check:
+    description: Checks/CheckinPut object model
+    properties:
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      type:
+        description: task|project
+        type: string
+        example: project
+  Models_Checks_CheckGet:
+    description: Checks/CheckGet object model
+    properties:
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      type:
+        description: task|project
+        type: string
+        example: project
+  Models_Checks_CheckPost:
+    description: Checks/CheckPost object model
+    properties:
+      uniq_id:
+        description: ID of project or task (depending on 'type')
+        type: integer
+        example: 09cf7c43-c6cc-40b8-8694-365eb4c58296
+      type:
+        description: '''project'' or ''task'''
+        type: string
+        example: project
+      latitude:
+        description: 'For project, ignored with task (depending on type)'
+        type: integer
+        example: '40.0234'
+      longitude:
+        description: 'For project, ignored with task (depending on type)'
+        type: integer
+        example: '-80.3343'
+      exceptionReason:
+        description: ''
+        type: string
+        example: 'I forgot to check out'
+  Models_Checks_CheckPut:
+    description: Checks/CheckPut object model
+    properties:
+      uniq_id:
+        description: ID of project or task (depending on 'type')
+        type: string
+        example: 09cf7c43-c6cc-40b8-8694-365eb4c58296
+      type:
+        description: '''project'' or ''task'''
+        type: string
+        example: project
+      latitude:
+        description: 'For project, ignored with task (depending on ''type'')'
+        type: integer
+        example: 40.0234
+      longitude:
+        description: 'For project, ignored with task (depending on type)'
+        type: integer
+        example: -80.3343
+      exceptionReason:
+        description: 'The exception reason'
+        type: string
+        example: 'I forgot to check out'
+  Models_Checks_CheckResult:
+    description: Checks/CheckResult object model
+    properties:
+      result:
+        example: success
+      http_code:
+        example: '200'
+      message:
+        example: Check Result...
+  Models_Checks_Past:
+    description: Checks/Past object model
+    properties:
+      fkTaskId:
+        type: integer
+        example: 58
+      fkProjectId:
+        type: integer
+        example: '8'
+      fkUserId:
+        type: integer
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      type:
+        description: task|project
+        type: string
+        example: project
+    $ref: '#/definitions/Models_Checks_Past'
+  Models_Checks_ProjectGet:
+    description: Checks/ProjectGet object model
+    properties:
+      type:
+        description: Type of checkin
+        type: string
+        example: '456'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+  Models_Checks_ProjectPost:
+    description: Checks/ProjectPost object model
+    properties:
+      type:
+        description: Type of checkin
+        type: string
+        example: '456'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+  Models_Checks_ProjectPut:
+    description: Checks/ProjectPut object model
+    properties:
+      type:
+        description: Type of checkin
+        type: string
+        example: '456'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+  Models_Checks_TaskGet:
+    description: Checks/TaskGet object model
+    properties:
+      type:
+        description: Type of checkin
+        type: string
+        example: '456'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+  Models_Checks_TaskPost:
+    description: Checks/TaskPost object model
+    properties:
+      type:
+        description: Type of checkin
+        type: string
+        example: '456'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+  Models_Checks_TaskPut:
+    description: Checks/TaskPut object model
+    properties:
+      type:
+        description: Type of checkin
+        type: string
+        example: '456'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkProjectId:
+        type: string
+        example: '8'
+      fkUserId:
+        type: string
+        example: '5'
+      latitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+      longitude:
+        description: 'required for projects, or exceptionReason'
+        type: string
+        example: '58'
+  Models_Clients_Client:
+    description: Clients/Superadmin object model
+    properties:
+      name:
+        type: string
+        example: ABC Client
+      fein:
+        type: string
+        example: '888888888'
+      address1:
+        type: string
+        example: 123 Madison Street
+      address2:
+        type: string
+        example: Suite 200
+      city:
+        type: string
+        example: New York
+      state:
+        type: string
+        example: SC
+      zip:
+        type: integer
+        example: '87776'
+      country:
+        type: string
+        example: USA
+      county:
+        type: string
+        example: Nueces
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        type: string
+        example: '{}'
+      uniq_id:
+        type: string
+        example: 2aba1ba7-7faa-4c27-ac26-d1482cf1ff36
+      status:
+        default: active
+        enum:
+          - active
+          - inactive
+          - paused
+          - canceled
+          - pending
+        example: active
+  Models_Clients_SuperadminDelete:
+    description: Clients/SuperadminDelete object model for DELETE request
+    properties:
+      uniq_id:
+        type: string
+        example: 2aba1ba7-7faa-4c27-ac26-d1482cf1ff36
+  Models_Clients_SuperadminGet:
+    description: Clients/SuperadminGet object model for RESPONSE
+    properties:
+      uniq_id:
+        type: string
+        example: 2aba1ba7-7faa-4c27-ac26-d1482cf1ff36
+    $ref: '#/definitions/Models_Clients_Client'
+  Models_Clients_SuperadminPost:
+    description: Clients/AdminPost object model for Post request
+    properties:
+      uniq_id:
+        type: unset
+    $ref: '#/definitions/Models_Clients_Client'
+  Models_Clients_SuperadminPut:
+    description: Clients/AdminPut object model for PUT request
+    $ref: '#/definitions/Models_Clients_Client'
+  Models_Clients_UserGet:
+    description: Clients/UserGet object model for /user/ profile response
+    properties:
+      name:
+        type: string
+        example: ABC Client
+      uniq_id:
+        type: string
+        example: 2aba1ba7-7faa-4c27-ac26-d1482cf1ff36
+  Models_Dev_Dev:
+    description: Dev
+    required:
+      - id
+  Models_Dev_GetLogins:
+    description: Dev
+    required:
+      - id
+  Models_Dev_GetOrgChart:
+    description: Dev
+    required:
+      - id
+  Models_Dev_LoginsUser:
+    description: For listing user logins in Dev
+  Models_Dev_SeedChecksAndLogs:
+    description: Dev
+    required:
+      - id
+  Models_Intersect_ProjectsClients:
+    description: Projects/Admin object model
+    properties:
+      fkProjectId:
+        type: string
+        example: '58'
+      fkClientOwnerId:
+        type: string
+        example: '909'
+      fkClientSharedId:
+        type: string
+        example: '111'
+      dateShared:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      dateAccepted:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      dateUnlinked:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      shareCode:
+        description: 'Hash or uuid to use to validate the share, by the fkClientSharedId'
+        type: string
+        example: 238u8af;ao33
+      status:
+        default: sent
+        enum:
+          - sent
+          - shared
+          - unlinked
+        example: shared
+  Models_Projects_AdminSharePost:
+    description: Projects/AdminSharePost object model for Post request
+    properties:
+      fkProjectId:
+        type: string
+        example: '58'
+      fkClientOwnerId:
+        type: string
+        example: '909'
+      fkClientSharedId:
+        type: string
+        example: '111'
+      dateShared:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      dateAccepted:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      dateUnlinked:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      shareCode:
+        description: 'Hash or uuid to use to validate the share, by the fkClientSharedId'
+        type: string
+        example: 238u8af;ao33
+      status:
+        default: sent
+        enum:
+          - sent
+          - shared
+          - unlinked
+        example: shared
+  Models_Projects_AdminGet:
+    description: Projects/AdminGet object model for RESPONSE
+  Models_Projects_AdminPost:
+    description: Projects/AdminPost object model for PosT request
+    properties:
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        example: '{}'
+  Models_Projects_AdminPut:
+    description: Projects/AdminPut object model for PUT request
+    properties:
+      id:
+        type: integer
+        example: '123'
+  Models_Projects_IntUsersProjects:
+    description: Projects/Superuser object model
+    properties:
+      fkProjectId:
+        type: string
+        example: '58'
+      fkUserId:
+        type: string
+        example: '58'
+      fkSuperuserId:
+        type: string
+        example: '58'
+  Models_Projects_Onsite:
+    description: Projects/Onsite object model
+    properties:
+      status:
+        type: unset
+      users:
+        type: unset
+    $ref: '#/definitions/Models_Projects_Project'
+  Models_Projects_Project:
+    description: Projects/Admin object model
+    properties:
+      fkClientId:
+        type: string
+        example: '58'
+      fkSectorId:
+        type: string
+        example: '2'
+      fkIndustryId:
+        type: string
+        example: '4'
+      startDate:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23'
+      endDate:
+        description: Date to end project
+        type: string
+        format: date-time
+        example: '2016-12-25'
+      name:
+        example: ABC Project
+      description:
+        example: Example ABC Project for Client XYZ Company
+      latitude:
+        description: URL of avatar/profile image
+        type: string
+        format: url
+        example: '77.77'
+      longitude:
+        description: URL of avatar/profile image
+        type: string
+        format: url
+        example: '77.77'
+      radius:
+        type: string
+        example: '30'
+      uniq_id:
+        type: string
+        example: d1682489-15e0-4c0a-98f7-07ace3245169
+      status:
+        default: active
+        enum:
+          - active
+          - inactive
+          - paused
+          - canceled
+          - pending
+        example: active
+  Models_Projects_SuperuserPost:
+    description: Projects/SuperuserPost object model for PosT request
+    properties:
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        example: '{}'
+      fkProjectId:
+        type: string
+        example: '58'
+      fkUserId:
+        type: string
+        example: '58'
+      fkSuperuserId:
+        type: string
+        example: '58'
+  Models_Projects_UserGet:
+    description: Projects/UserGet object model
+    properties:
+      status:
+        type: unset
+      users:
+        type: unset
+    $ref: '#/definitions/Models_Projects_Project'
+  Models_Projects_UserGetOne:
+    description: Projects/UserGetOne object model
+    $ref: '#/definitions/Models_Projects_Project'
+  Models_Tasks_AdminGet:
+    description: Tasks/AdminGet object model
+    properties:
+      id:
+        type: string
+        example: '123'
+  Models_Tasks_AdminPost:
+    description: Tasks/User object model
+    required:
+      - id
+    properties:
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        example: '{}'
+  Models_Tasks_AdminPut:
+    description: Tasks/User object model
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+        example: '123'
+  Models_Tasks_IntUsersTasks:
+    description: Tasks/Superuser object model
+    properties:
+      fkTaskId:
+        type: string
+        example: '58'
+      fkUserId:
+        type: string
+        example: '58'
+      fkSuperuserId:
+        type: string
+        example: '58'
+  Models_Tasks_MySelf:
+    description: Tasks/MySelf object model
+  Models_Tasks_SuperuserPost:
+    description: Tasks/SuperuserPost object model for PosT request
+    properties:
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        example: '{}'
+      fkTaskId:
+        type: string
+        example: '58'
+      fkUserId:
+        type: string
+        example: '58'
+      fkSuperuserId:
+        type: string
+        example: '58'
+  Models_Tasks_Task:
+    description: Tasks/Admin object model
+    required:
+      - id
+    properties:
+      fkProjectId:
+        type: integer
+        example: '123'
+      name:
+        type: string
+        example: ABC Project
+      description:
+        type: string
+        example: Example ABC Project for Client XYZ Company
+      jdoc:
+        example: '{json:data}'
+      startDate:
+        description: Date to start project
+        type: string
+        format: date-time
+        example: '2016-08-23T00:00:00Z'
+      endDate:
+        description: Date to end project
+        type: string
+        format: date-time
+        example: '2016-12-25T00:00:00Z'
+  Models_Tasks_UserGet:
+    description: Tasks/User object model
+  Models_Tasks_UserGetOne:
+    description: Tasks/UserGetOne object model
+  Models_UserLogs_Insert:
+    description: UserLogs/Insert object model for POST request
+    properties:
+      note:
+        type: string
+        example: Text of a note/log
+      uniq_id:
+        type: string
+        example: Uniq UUID for note/log
+  Models_UserLogs_UserGet:
+    description: UserLogs/UserGet object model
+    properties:
+      note:
+        type: string
+        example: Text of a note/log
+      uniq_id:
+        type: string
+        example: Uniq UUID for note/log
+  Models_UserLogs_UserLog:
+    description: UserLogs/UserLog object model
+    properties:
+      note:
+        type: string
+        example: Text of a note/log
+      uniq_id:
+        type: string
+        example: Uniq UUID for note/log
+  Models_UserLogs_UserPost:
+    description: UserLogs/UserPost object model for PosT request
+    properties:
+      note:
+        type: string
+        example: Text of a note/log
+  Models_Users_AdminDelete:
+    description: Users/AdminDelete object model for DELETE request
+    properties:
+      id:
+        type: integer
+        example: '123'
+  Models_Users_AdminGet:
+    description: Users/AdminGet object model for RESPONSE
+    properties:
+      id:
+        type: integer
+        example: '123'
+      projects:
+        type: string
+        example: '[]'
+  Models_Users_AdminPost:
+    description: Users/AdminPost object model for Post request
+    properties:
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        example: '{}'
+  Models_Users_AdminPut:
+    description: Users/AdminPut object model for PUT request
+    properties:
+      id:
+        type: integer
+        example: '123'
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        example: '{}'
+  Models_Users_MySelf:
+    description: Users/MySelf object model
+  Models_Users_User:
+    description: Users/User object model
+    properties:
+      firstName:
+        type: string
+        example: Matt
+      lastName:
+        type: string
+        example: Capelli
+      email:
+        type: string
+        example: admin@punchcard.com
+      mobileNumber:
+        description: 'mobileNumber, only numbers (formatted on display)'
+        type: integer
+        example: '5558675309'
+      role:
+        type: string
+        example: admin
+      uniq_id:
+        type: string
+        example: 2aba1ba7-7faa-4c27-ac26-d1482cf1ff36
+      status:
+        type: string
+        example: active
+  Models_Users_UserAvatarPut:
+    description: Users/UserAvatarPut object model for PUT request
+    properties:
+      image:
+        description: base64 encoded image;
+        type: string
+        example: '<image:base64encoded>'
+  Models_Users_UserPut:
+    description: Users/UserPut object model for PUT request
+    properties:
+      firstName:
+        type: string
+        example: Matt
+      lastName:
+        type: string
+        example: Capelli
+      email:
+        type: string
+        example: admin@punchcard.com
+      mobileNumber:
+        description: 'mobileNumber, only numbers (formatted on display)'
+        type: integer
+        example: '5558675309'
+      jdoc:
+        description: >-
+          jdoc will be used when we have extra fields we don't want to add to
+          the db
+        $ref: '#/definitions/Jdoc_Example'
+  Models_Users_ViewingUser:
+    description: Users/User object model
+    $ref: '#/definitions/Models_Users_User'
+  Models_Users_ViewingUserGet:
+    description: Users/ViewingUserGet object model
+    properties:
+      firstName:
+        type: string
+        example: Matt
+      lastName:
+        type: string
+        example: Capelli
+      email:
+        type: string
+        example: admin@punchcard.com
+      mobileNumber:
+        description: 'mobileNumber, only numbers (formatted on display)'
+        type: integer
+        example: '5558675309'
+      role:
+        type: string
+        example: admin
+      jdoc:
+        example: '{}'
+      client:
+        $ref: '#/definitions/Models_Clients_UserGet'
+  ApiResultSuccessPost:
+    description: 'Sends out a success object'
+    properties:
+      message:
+        type: string
+        example: 'Success!'
+  ApiResultSuccessPut:
+    description: 'Sends out a success object'
+    properties:
+      message:
+        type: string
+        example: 'Success!'
+  ApiResultSuccessDelete:
+    description: 'Sends out a success object'
+    properties:
+      message:
+        type: string
+        example: 'Success!'
+  ApiResultWithRaw:
+    description: 'Raw, don''t intepret, display it'
+  Jdoc_Example:
+    description: Example empty jdoc
+    properties:
+      someThing:
+        example: Here
+      anotherThing:
+        example: There
+tags:
+  - name: mobile-app
+    description: End points for mobile
+  - name: web-app
+    description: End points for web-app
+  - name: clients
+    description: Client end points for the web app
+  - name: projects
+    description: 'Project end points: some active'
+  - name: tasks
+    description: Tasks end points; some active
+  - name: user
+    description: User end points

@@ -1,0 +1,299 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Condensed);
+@import url(https://fonts.googleapis.com/css?family=Catamaran);
+
+// Variables
+@import "variables";
+
+// Bootstrap.
+@import "./node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+select,
+input[type="text"],
+input[type="radio"],
+input[type="checkbox"],
+input[type="password"] {
+    border: 1px solid $input-default-border;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 100%;
+    &:focus, &:active &:hover {
+      border-color: $theme-slate;
+      outline: none;
+    }
+}
+
+a, span, h1, h2, h3, h4, h5, div, i {
+  color: $theme-slate;
+}
+
+input:disabled {
+    border: 0;
+}
+
+h4 {
+    // border-bottom: 1px solid $input-default-border;
+    padding: 15px;
+    margin: 5px 0;
+    background-color: $theme-light-gray;
+    z-index: 2;
+    position: relative; // needed for z-index to work
+    box-shadow: $main-box-shadow;
+}
+
+h4 + .collapsible-content {
+    z-index: 1;
+    padding-top: 62px;
+    padding-bottom: 10px;
+    margin-top: -52px;
+    margin-bottom: 15px;
+    width: 100% !important;
+    box-shadow: $main-box-shadow;
+}
+
+h3 {
+    margin: auto;
+    margin-top: 25px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid $input-default-border;
+    margin-bottom: 5px;
+}
+
+span.section-header {
+    font-weight: 700;
+    font-size: 3em;
+    color: #111;
+}
+
+hr {
+    margin: 2px 0 10px 0;
+}
+
+img.size-200 {
+    height: 200px;
+}
+
+img.size-125 {
+    height: 125px;
+}
+
+img.size-75 {
+    height: 75px;
+}
+
+.fancy-3d-button {
+    margin-left: 10px;
+    border: none;
+    box-shadow: 0 6px darken($theme-gold, 30%);
+    position: relative;
+    background-color: $theme-gold;
+    color: #000;
+    &:hover {
+        background-color: $theme-gold;
+        box-shadow: 0 4px darken($theme-gold, 30%);
+        top: 2px;
+    }
+    &:active {
+        outline: none;
+        background-color: $theme-gold !important;
+        box-shadow: 0 0 darken($theme-gold, 30%);
+        top: 6px;
+    }
+    &:focus {
+        background-color: $theme-gold;
+        outline: none;
+    }
+}
+thead td {
+    font-weight: 700;
+}
+
+.form-control:active, .form-control:focus {
+  box-shadow: none !important;
+}
+
+/* Buttons */
+.btn, button {
+  margin: 15px;
+  color: $theme-black;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  vertical-align: middle;
+  z-index: 1;
+  will-change: opacity, transform;
+  transition: .3s ease-out;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  letter-spacing: .5px;
+  border: none;
+  border-radius: 2px;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 2rem;
+  font-weight: 600;
+  background-color: $theme-gold;
+  text-transform: capitalize;
+}
+
+.btn.material:hover, button:hover {
+      box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
+      background-color: lighten($theme-gold, 10%);
+}
+
+.cov-vue-date * {
+    font-family: $font-family-sans-serif !important;
+}
+.cov-datepicker {
+    padding: 0;
+    height: 50px;
+}
+
+.cov-date-caption {
+    span, small {
+        color: $theme-white;
+    }
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  padding: 10px 0;
+  display: none;
+  background-color: $theme-slate;
+  color: $theme-white;
+  border-right: 1px solid $theme-light-gray;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+
+  }
+}
+
+.router-link-active .nav-title, .router-link-active.nav-title {
+    // text-decoration: underline;
+    &:before {
+        content: '\f0da';
+        font-family: FontAwesome;
+        padding-right: 5px;
+    }
+    &:after {
+        content: '\f0d9';
+        font-family: FontAwesome;
+        padding-left: 5px;
+    }
+}
+
+.major-section-header-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card {
+    box-shadow: $main-box-shadow;
+    transition: $box-shadow-transition;
+    color: $list-element-major-font-color;
+    background-color: $theme-light-gray;
+    &:hover {
+        background-color: lighten($theme-light-gray, 4%); 
+        box-shadow: $main-box-shadow-hover;
+        * {
+            text-decoration: none;
+        }
+   }
+}
+
+// projects
+ul.projects  {
+
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    li {
+        box-shadow: $main-box-shadow;
+        transition: $box-shadow-transition;
+        color: $list-element-major-font-color;
+        background-color: $theme-light-gray;
+        flex-grow: 1;
+        width: 100%;
+        padding: $project-card-padding;
+        margin: 20px;
+    }
+    li:hover {
+        background-color: lighten($theme-light-gray, 5%); 
+        box-shadow: $main-box-shadow-hover;
+        * {
+            text-decoration: none;
+        }
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    input[type='text'] {
+        max-width: 80%;
+        margin-right: 10px;
+    }
+    input, button {
+        height: 100%;
+        margin: 0;
+        padding: 5px;
+    }
+    button  {
+        width: 100%;
+        span {
+            margin: 5px;
+        }
+    }
+    .input-group-btn {
+        width: 150px;
+    }
+}
+.dropdown-toggle {
+  background-color: $theme-light-gray;
+}
+.dropdown-menu {
+    padding: 5px;
+    margin: 0;
+    color: #111;
+    li {
+        margin: 0 !important;
+        padding: 10px !important;
+        &:hover, *:hover {
+            background-color: $theme-gold;
+            cursor: pointer;
+        }
+    }
+}

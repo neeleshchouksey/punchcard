@@ -1,0 +1,49 @@
+Client:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 137
+      description: ID
+    uniq_id:
+      type: string
+      example: "780fa190-df2a-3e8d-9d1c-001ace126f58"
+    child_of_id:
+      type: string
+      example: 1
+    subdomain:
+      type: string
+      example:  companyh
+    name:
+      type: string
+      example:  Baumbach Ltd
+    address1:
+      type: string
+      example:  154 Chaz Extension Apt. 330
+    address2:
+      type: string
+      example:  467 Zachery Highway Suite 951
+    city:
+      type: string
+      example:  Harbermouth
+    state:
+      type: string
+      example:  HI
+    zip:
+      type: string
+      example:  65507
+    country:
+      type: string
+      example:  US
+    county:
+      type: string
+      example:  Anniestad
+    status:
+      type: string
+      example:  active
+    jdoc:
+      type: string
+      example: "json data"
+    logo:
+      type: string
+      example:  "http://api.punchcardllc.com/api/v1.0/clients/logo/ce531a15-b42e-33df-85d7-38347d50ca7"

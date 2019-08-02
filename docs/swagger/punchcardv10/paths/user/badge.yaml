@@ -1,0 +1,40 @@
+get:
+  tags:
+    - mobile-app
+    - user
+  summary: View Own Badge
+  description: User views own badge
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: user_uniq_id
+      in: path
+      required: true
+      type: string
+      format: uuid
+    - name: project_uniq_id
+      in: path
+      required: true
+      type: string
+      format: uuid
+  responses:
+    200:
+      description: Build a badge information
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: successfully retrieved badge
+          data:
+            $ref: "../../definitions/user/Badge.yaml#/Badge"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"

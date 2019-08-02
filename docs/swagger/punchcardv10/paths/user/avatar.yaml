@@ -1,0 +1,73 @@
+get:
+  tags:
+    - mobile-app
+    - user
+    - images
+  summary: View Own Avatar
+  description: |
+    ## Testing
+
+    Please test this endpoint with several users. Also, try updating (see `PUT` below) with a new avatar you find from a google
+    image search, and then see if it is updated when you come back here. This will not return a JSON array, but it will return
+    the image itself. You should see an image in this endpoint.
+
+  produces:
+    - image/png
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: Results of a user viewing own profile
+      schema:
+        type: file
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+put:
+  tags:
+    - mobile-app
+    - user
+  summary: Update Own Avatar
+  description: |
+
+    ## Testing
+
+    This actually requires a base64-encoded image. If you are familiar with command line Mac or Linux, you can use the
+    command line program 'base64' to encode an image:
+
+      1. Download an image
+      1. find it on the command line (eg cd ~/Downloads)
+      1. base64 filename.png
+      1. copy the gibberish that is output between the quotes in "image" ""
+      1. Try a `PUT` to see if it works. The server should read the encoded string, decode it and save the file for
+         the authenticated user.
+
+    Please do this with a variety of images - small, big, huge, jpg, png, etc. You can use other image types, like gif and tiff,
+    to ensure they do not work. We only support .jpg and .png images. I would like a test story for each image type, and grouped
+    by 5-10 sizes, like 'less than 50k', '50k - 100k', etc.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        description: PUT for /ver/user/avatar/
+        properties:
+          image:
+            type: string
+            example: <base64encoded_image>
+  responses:
+    200:
+      $ref: "../../responses.yaml#/responses/SuccessfulResponse"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

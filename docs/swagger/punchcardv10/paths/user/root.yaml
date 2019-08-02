@@ -1,0 +1,88 @@
+get:
+  tags:
+    - mobile-app
+    - user
+  summary: View Own Profile
+  description: |
+    ## Testing
+
+    This endpoint shows the user their own profile. It only should work with the user's own ID, not with another user's id.
+    There is no `uniq_id` to pass to make it work. The user is authenticated, using the Authorization header, and it shows
+    them their profile information.
+
+    Please make sure all of the fields listed below exist in the result.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: Results of a user viewing own profile
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: successfully retrieved 1 record
+          data:
+            $ref: "../../definitions/user/UserDefinition.yaml#/User"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+put:
+  tags:
+    - mobile-app
+    - user
+  summary: Update Own Profile
+  description: |
+    ## Testing
+
+    This endpoint allows the user to update their own profile. While we send the updated profile information in their body,
+    we do not send an `id` or `uniq_id`. The Authorization header will allow us to find the `id` of the user updating their
+    own profile. It will return a successful message, and also the updated information, in json.
+
+    Please test by changing the field names, removing field names, adding new field names that shouldn't exist, and try the
+    `PUT` operation to update the information.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        $ref: "../../definitions/user/UserDefinition.yaml#/User"
+  responses:
+    200:
+      description: Results of a user viewing own profile
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: successfully updated 1 record
+          data:
+            $ref: "../../definitions/user/UserDefinition.yaml#/User"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+    500:
+      $ref: "../../responses.yaml#/responses/ErrorResponse"

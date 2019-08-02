@@ -1,0 +1,218 @@
+post:
+  tags:
+    - mobile-app
+    - user
+    - checks
+  summary: Check in to a project via a Badge
+  description: |
+
+    ## Testing
+
+    This endpoint creates a check-in via a manually typed-in number.
+
+    Scenario:
+      Company has a person standing at the gate, checking people in.
+
+      Person walks up with a printed and laminated badge, person at the gate sees the "badge_id" number, types it in his phone. Done. Same in reverse for PUT/check out.
+
+    Things to test:
+      Person who is standing at the gate, it is this person who is actually logged in and using the app.
+       - must be logged in
+       - must be active
+       - must have permissions via 'users->permissions->scanner' in the profile information. If the 'scanner' permission exists AND has the project_id (not uniq_id!), then this user is permitted to scan others in to the project.
+         **Please check the TEST HELPERS link above to determine who has this permission; You can Toggle Scanner Access there.**
+
+    Person who is walking through the gate, and being checked in:
+     - must be on the project
+     - must be active
+     - must not already be checked in
+
+    Possible BDD Test cases (please come up with more):
+      - "As a superuser using the API directly, I need to check people in by entering their badge number"
+      - "As a superuser using the API directly, I need to check people in by entering their badge number, and find that people with what appears to be a valid badge **but are no longer on the project** cannot check in"
+      - "As a user using the API directly, and without 'scanner access', I should see an error message if I try to check someone in using their badge number"
+      - "As a superuser using the API directly, and without 'scanner access', I should see an error message if I try to check someone in using their badge number"
+
+    How to test:
+     Take the test case "As a superuser, I need to check people in but make sure that people with what appears to be a valid bad but are no longer on the project cannot check in"
+
+     Go to the /dev/users page.
+     Select a company.
+     Find a superuser in that company with "scanner access: yes". This is GateUser
+       This will be your "logged in user" - the guy at the gate with a smart phone, "scanner access" and a line of people to check in or out.
+     Use this GateUser user/pass in the Basic Auth
+     Pick another user, this will be RegularUser
+     Note which projects they are on
+     On the client's page, find a project this RegularUser is **not** on (per the test)
+     Try "checking in/out" as this user, using the /check/badge endpoint and note the message. (In this example, that would be an error notice that the RegularUser is not on the project).
+     Test this with other people in the company, too.
+
+
+
+        The 'uniq_id' is passed along. This is the uniq_id of the project the guy at the gate checking people is logged in to.
+
+        We use this to confirm that this project AND the project on the badge are the same, so someone doesn't walk up with a badge for another project, but still get checked in.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        required:
+        - uniq_id
+        - latitude
+        - longitude
+        - badge_id
+        description: POST to check in
+        properties:
+          uniq_id:
+            type: string
+            example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+          latitude:
+            type: string
+            example: "40.0234"
+          longitude:
+            type: string
+            example: "-80.3343"
+          badge_id:
+            type: integer
+            example: 555
+          exceptionReason:
+            type: string
+            example: "(optional) My GPS is down | null"
+  responses:
+    200:
+      description: |
+        **Check IN**
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: checked-in
+          data:
+            type: object
+            properties:
+              check_uniq_id:
+                type: string
+                example: "846ebe7a-594b-4085-9f29-7730c0f878c6"
+              badge:
+                $ref: "../../definitions/user/Badge.yaml#/Badge"
+    422:
+      description: |
+        **ALREADY Checked IN**
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 422
+          result:
+            type: string
+            example: error
+          message:
+            type: string
+            example: Checkin failed; already checked in
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+put:
+  tags:
+    - mobile-app
+    - user
+    - checks
+  summary: Check out from a project
+  description: |
+
+    ## Testing
+
+    See details under "POST" for /check/badge
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        description: PUT to check OUT
+        required:
+        - uniq_id
+        - latitude
+        - longitude
+        - badge_id
+        properties:
+          uniq_id:
+            type: string
+            description: The UUID/uniq_id of the Project
+            example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+          latitude:
+            type: string
+            example: "40.0234"
+          longitude:
+            type: string
+            example: "-80.3343"
+          badge_id:
+            type: integer
+            example: "987"
+          exceptionReason:
+            type: string
+            example: "(optional) I forgot to check out | null"
+  responses:
+    200:
+      description: |
+        **Check OUT**
+
+        To check out you must already be checked in.
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: checked-out
+          data:
+            type: object
+            properties:
+              check_uniq_id:
+                type: string
+                example: "846ebe7a-594b-4085-9f29-7730c0f878c6"
+              badge:
+                $ref: "../../definitions/user/Badge.yaml#/Badge"
+    422:
+      description: |
+        **NOT Checked IN**
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 422
+          result:
+            type: string
+            example: error
+          message:
+            type: string
+            example: Checkout failed; not checked in
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

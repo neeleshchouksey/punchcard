@@ -1,0 +1,31 @@
+get:
+  tags:
+    - mobile-app
+    - user
+    - images
+  summary: "View QR code based on user/project"
+  description: "Any authenticated use can see their own badges (their user_uniq_id will still need to be the first path parameter). Superuser and above can see any badges in their company."
+  produces:
+    - image/png
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: user_uniq_id
+      in: path
+      description: The uniq_id (UUID) of the user
+      required: true
+      type: string
+    - name: project_uniq_id
+      in: path
+      description: The uniq_id (UUID) of the project
+      required: true
+      type: string
+  responses:
+    200:
+      description: The QR code, with user and project uniq_ids behind it (NO SCHEMA; image!)
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

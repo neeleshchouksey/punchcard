@@ -1,0 +1,40 @@
+Timesheet:
+  type: object
+  required:
+    - id
+    - uniq_id
+  properties:
+    id:
+      type: integer
+      example: 137
+      description: ID
+    uniq_id:
+      type: string
+      example: "780fa190-df2a-3e8d-9d1c-001ace126f58"
+    user_id:
+      type: integer
+      example: 3
+    project_id:
+      type: integer
+      example: 4
+    checkInDateTime:
+      type: string
+      example: "2016-11-03 03:53:10"
+    checkOutDateTime:
+      type: string
+      example: "2016-11-02 22:48:29"
+    longitudeIn:
+      type: integer
+      example: "27.379851"
+    latitudeIn:
+      type: integer
+      example: "-25.479815"
+    longitudeOut:
+      type: integer
+      example: "-60.636598"
+    latitudeOut:
+      type: integer
+      example: "-24.467042"
+    checkMethod:
+      type: string
+      example: qr

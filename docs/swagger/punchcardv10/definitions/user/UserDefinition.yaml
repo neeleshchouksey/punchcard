@@ -1,0 +1,162 @@
+User:
+  type: object
+  required:
+    - uuid
+    - name
+    - email
+    - mobileNumber
+    - username
+  properties:
+    name:
+      type: string
+      example: Jane Doe
+      description: User's full name
+    email:
+      type: string
+      example: email@domain.com
+      description: User's email; can also be a username
+    mobileNumber:
+      type: string
+      example: 1234569999
+      description: User's mobile phone number; can also be a username
+    username:
+      type: string
+      example: JaneDoe1988
+      description: User's username
+    permissions:
+      type: array
+      items:
+        type: string
+        example: "{json}"
+    uniq_id:
+      readOnly: true
+      type: string
+      example: 8b2fc998-ce46-38e7-b7de-04a29e8695af
+      description: The assigned UUID for the user
+    role:
+      readOnly: true
+      type: string
+      example: admin (read only)
+      description: The user's role; user, superuser, admin, superadmin
+    status:
+      readOnly: true
+      type: string
+      example: active (read only)
+      description: The user's status - active or inactive
+    jdoc:
+      type: object
+      description: the json document store
+      properties:
+        department:
+          type: string
+          example: Department Name
+        trade:
+          type: string
+          example: Craftsman
+        job_title:
+          type: string
+          example: Head Craftsman
+        homeNumber:
+          type: integer
+          example: 3334445555
+          description: The user's home phone number
+        workNumber:
+          type: integer
+          example: 3334446666
+          description:  The user's work phone number
+        middleName:
+          type: string
+          example: Franklin
+          description: The user's middle name
+        address:
+          type: object
+          description: User address
+          properties:
+            address1:
+              type: string
+              example: 123 Avenue Way
+              description: Line 1 of the user's address
+            address2:
+              type: string
+              example: Suite 3
+              description: Line 2 of the user's address
+            zip:
+              type: integer
+              example: 75023
+              description: The user's main zip code
+            city:
+              type: string
+              example: New Haven
+              description: The user's city
+            state:
+              type: string
+              example: MT
+              description: State (2 letter)
+        vehicle:
+          type: object
+          description: User Vehicle
+          properties:
+            make:
+              type: string
+              example: Ford
+              description: The make of the user's car
+            model:
+              type: string
+              example: F150
+              description: The model of the user's car
+            licPlateNumber:
+              type: string
+              example: 333-8AGR
+              description: The user's license plate number
+            licPlateState:
+              type: string
+              example: ABG-312
+              description: The user's license plate number
+            driversLicenseState:
+              type: string
+              example: TX
+              description: The user's drivers license state
+            driversLicenseNumber:
+              type: string
+              example: XPRDTY88
+              description: The user's drivers license number
+        emerContact:
+          type: object
+          description: User's emergency contact
+          properties:
+            firstName:
+              type: string
+              example: JK
+              description: The emergency contact's first name
+            lastName:
+              type: string
+              example: Jones
+              description: The emergency contact's last name
+            middleName:
+              type: string
+              example: Pat
+              description: The emergency contact's middle name
+            relation:
+              type: string
+              example: Spouse
+              description: The emergency contact's relationship to the user
+            email:
+              type: string
+              example: example@email.com
+              description: The emergency contact's email address
+            homeNumber:
+              type: string
+              example: 9998887777
+              description: The emergency contact's home phone number
+            workNumber:
+              type: string
+              example: 8887773333
+              description: The emergency contact's work phone number
+            mobileNumber:
+              type: string
+              example: 3332223333
+              description: The emergency contact's mobile phone number
+Users:
+  type: array
+  items:
+    $ref: "#/User"

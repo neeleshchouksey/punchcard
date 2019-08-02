@@ -1,0 +1,10 @@
+- name: mobile-app
+  description: End points for mobile
+- name: web-app
+  description: End points for web-app
+- name: clients
+  description: Client end points for the web app
+- name: projects
+  description: 'Project end points: some active'
+- name: user
+  description: User end points

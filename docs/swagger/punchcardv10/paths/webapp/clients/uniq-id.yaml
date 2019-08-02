@@ -1,0 +1,44 @@
+get:
+  tags:
+    - web-app
+    - clients
+  summary: Webapp access to clients
+  description: |
+    ## Testing
+
+    This endpoint shows the web app user a client, along with the projects, users, and children of the client
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  responses:
+    200:
+      description: Results
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: successfully retrieved 1 record
+          data:
+            $ref: "../../../definitions/clients/ClientDefinition.yaml#/Client"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"

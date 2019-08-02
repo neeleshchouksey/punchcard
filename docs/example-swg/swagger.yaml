@@ -1,0 +1,81 @@
+swagger: '2.0'
+info:
+  title: InverseAPP's Punchcard API
+  version: '1.0'
+host: dev-api.punchcard.com
+basePath: /v1
+schemes:
+  - http
+paths:
+  '/':
+    get:
+      description: |
+          No useful API route at /, returns description of service and where to get help.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: |
+            Successfully returned object
+          $ref: '#/definitions/RootHelpResponse'
+tags:
+  - name: mobile-app
+    description: End points for mobile
+  - name: web-app
+    description: End points for web-app
+  - name: clients
+    description: Client end points for the web app
+  - name: projects
+    description: 'Project end points: some active'
+  - name: tasks
+    description: Tasks end points; some active
+  - name: user
+    description: User end points
+responses:
+    '200':
+      description: Success, Result okay
+    '400':
+      description: Failed Due to Bad Input
+    '401':
+      description: Failed Authentication
+    '403':
+      description: Failed Authorization
+    '200_Generic':
+      properties:
+        result:
+          example: success
+        message:
+          example: Retrieved 1 of something
+        num_results:
+          example: 1
+        http_code:
+          example: '200'
+definitions:
+  GenericResponse:
+    type: object
+    properties:
+      result:
+        example: success
+      message:
+        example: Retrieved 1 of something
+      num_results:
+        example: 1
+      http_code:
+        example: '200'
+  RootHelpResponse:
+    type: object
+    properties:
+      name:
+        type: string
+        default: Punchcard App API v1.0,
+      website:
+        type: string:
+        default: http://punchcardllc.com/,
+      help_message:
+        type: string,
+        default: Use /v1/,
+      data_type:
+        type: string
+        default: 'Supported: json; Content-type: `application/json` required'

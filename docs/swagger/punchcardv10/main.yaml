@@ -1,0 +1,113 @@
+swagger: '2.0'
+
+info:
+  version: v1.0
+  title: Punchcard API
+  description: |
+
+      ## Important Testing Note!
+
+      **__Please keep in mind that if this suddenly stops working, it might mean that the database was re-seeded.
+      Sometimes the developers will need to do this and it will make your test cases invalid and need to be updated to
+      new values.  Try not to rely too much on specific values in your test cases, and they likely will often change.__**
+
+      Developers will try to avoid this, as it will impact you negatively with test cases. Using the User list
+      (/dev/users/ below) will help a lot, as will not trying to be too specific with the actual data being tested.
+
+      ## Requests
+
+      There is a lot of flexibility in testing and testing data. If you need specific information or insight, please open
+      a github issue with the request, and the development team will do our best to fulfill it. We want you to be able to test
+      as well and easily as possible, because it makes the product that much stronger!
+
+      ## Testing
+
+      QA Spreadsheet:
+        - https://docs.google.com/spreadsheets/d/1jVOZ1LpNWcrCwzr6_eogQPhfEyJEG4HmLIiPptmJlrc/edit#gid=0
+
+
+      Please test thoroughly, with these details:
+        - While in testing, you can access the Swagger UI docs via: http://petstore.swagger.io/?url=http://inversedevs.com/dev/swagger.json
+        - TEST HELPER: User data to get insight into testing can be seen here: https://companya.inversedevs.com/dev/users/
+        - Please use Google Chrome with the Postman App. We can support you easier with these details.
+          - https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
+            - Basic Auth - email or phone + password (always abc123456 in testing)
+            - Accept and Content-type headers: application/json (see below)
+            - NOTE (Important!); by default, the subdomain is set to `companya` but some users will need this changed in order for you to test as them. See the `subdomain` column in the /dev/users/ page.
+        - **Please pay attention to whether the documenation is accurate** and compare what is returned in the messages and data structure to what the document says will be returned and make a note if it is not correct in any way.
+        - Please log all issues at Punchcard Central: https://github.com/inverseapplications/punchcard-central/issues
+        - Please pay attention to the response codes and messages. If you see one that is not listed - you get a 404, or 400, say, without the documentation listing that as an option. Please open an issue on github and include what user/Authorization header/data you sent, what endpoint it was, and what the message said (please copy and paste it exactly).
+
+      ## Results
+      Most results will return a predictable envelope; Successful responses are usually like this:
+      ```json
+      {
+          "result": "success",
+          "message": "5 records found",
+          "http_code": 200,
+          "data": {
+            ... data object if one, array if many (1) ...
+          }
+      }
+      ```
+
+      If there is only ever a chance that there will be one result, `data` will be a single object, not wrapping in array.
+
+      If there is the potential for more than one result, then `data` will always be an array, even if empty or even if one result is returned.
+
+      ## Paths, Payload and Parameters
+
+      ### Paths
+      This API accepts `path` parameters for GET and DELETE requests.
+
+      ### Payload
+      This API accepts JSON in the body ("payload") for POST and PUT requests
+
+      **NOTE**: Required Headers:
+
+          - Content-type: application/json
+          - Accept: application/json
+
+        Please send both headers with all requests.
+
+      ### Parameters
+      This API uses parameters for pagination, search terms and the ?echo=json functionality.
+
+      ## Errors
+
+      We support 400 (Bad Input Data), 401 (Not Authenticated - not logged in), 403 (Not Authorized - logged in, but no permissions to take that action), 404 (Not Found), 500 (Internal Server Error)
+
+      ## Documentation
+
+      If anything is unclear or you find confusing information in this documentation, please let us know so we can fix and/or make the information clearer.
+
+      ## Helper Videos
+
+      I'm creating a series of videos both to documention how to test, and the tests themselves.
+
+        - https://youtu.be/n4rGs7fj0M8 - 001 Check In/Out
+        - https://www.youtube.com/watch?v=GQSBWnA-pro - 002 Important Headers (my slow computer cut off the beginning and end a bit, sorry!)
+
+      ## Password Recovery/Reset (GH#23)
+
+      Simply link to /password/reset/ - this is not an API endpoint, since we need to do some validation and the email will return them to a browser, it's best it opens in a browser.
+
+      eg: http://companya.punchcardllc.com/password/reset/
+
+      **__They need to be pointed to the proper subdomain, too. That is important.__**
+
+schemes:
+    - https
+host: companya.inversedevs.com
+basePath: /v1.0
+
+consumes:
+  $ref: mediatypes.yaml#/default
+produces:
+  $ref: mediatypes.yaml#/default
+
+paths:
+  $ref: http://localhost:8082/paths.yaml
+
+tags:
+  $ref: tags.yaml

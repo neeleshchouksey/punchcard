@@ -1,0 +1,14 @@
+NotAuthenticatedResponseProps:
+  description: Not Authenticated Response's properties
+  properties:
+    http_code:
+      type: integer
+      example: 401
+    result:
+      type: string
+      example: error
+    message:
+      type: string
+      example: Not Authenticated
+    data:
+      type: array

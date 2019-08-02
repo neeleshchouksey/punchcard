@@ -1,0 +1,14 @@
+NotAuthorizedResponseProps:
+  description: Not Authorized Response's properties
+  properties:
+    http_code:
+      type: integer
+      example: 403
+    result:
+      type: string
+      example: error
+    message:
+      type: string
+      example: Not Authorized
+    data:
+      type: array

@@ -1,0 +1,15 @@
+SuccessfulResponseProps:
+  description: Successful call properties
+  properties:
+    http_code:
+      type: integer
+      example: 200
+    result:
+      type: string
+      example: success
+    message:
+      type: string
+      example: successfully retrieved 1 record
+    data:
+      type: string
+      example: An object or an array, depending on results...

@@ -1,0 +1,87 @@
+'/':
+  $ref: "paths/root.yaml"
+'/user':
+  $ref: "paths/user/root.yaml"
+'/user/avatar':
+  $ref: "paths/user/avatar.yaml"
+'/user/avatar/{uniq_id}':
+  $ref: "paths/user/avatar-uniq-id.yaml"
+'/user/logs': # GET POST
+  $ref: "paths/user/logs.yaml"
+'/user/checkins': # GET
+  $ref: "paths/user/checkins.yaml" # GET
+'/user/check':
+  $ref: "paths/user/check.yaml" # GET POST PUT
+'/user/password':
+  $ref: "paths/user/password.yaml" # PUT
+
+
+'/check/badge':
+  $ref: "paths/check/badge.yaml" # POST, PUT
+
+'/check/qr':
+  $ref: "paths/check/qr.yaml" # POST, PUT
+
+'/user/badge/{user_uniq_id}/{project_uniq_id}':
+  $ref: "paths/user/badge.yaml" # GET
+'/user/qr/{user_uniq_id}/{project_uniq_id}':
+  $ref: "paths/user/qr.yaml" # GET
+
+'/projects': # GET
+  $ref: "paths/projects/root.yaml"
+'/projects/{uniq_id}': # GET
+  $ref: "paths/projects/uniq-id.yaml"
+'/projects/{uniq_id}/logs': # GET
+  $ref: "paths/projects/uniq-id-logs.yaml"
+'/projects/{uniq_id}/employees': # GET
+  $ref: "paths/projects/uniq-id-employees.yaml"
+'/projects/{uniq_id}/logo':
+  $ref: "paths/projects/uniq-id-logo.yaml"
+
+'/webapp/projects': # GET
+  $ref: "paths/webapp/projects/root.yaml"
+'/webapp/projects/{uniq_id}': # GET
+  $ref: "paths/webapp/projects/uniq-id.yaml"
+
+'/webapp/users/{uniq_id}': # GET
+  $ref: "paths/webapp/users/uniq-id.yaml"
+'/webapp/users/{uniq_id}/timesheets': # GET
+  $ref: "paths/webapp/users/uniq-id-timesheets.yaml"
+
+'/webapp/clients/{uniq_id}': # GET
+  $ref: "paths/webapp/clients/uniq-id.yaml"
+
+'/webapp/clients/': # POST PUT
+  $ref: "paths/webapp/clients/root.yaml"
+
+'/webapp/user/{uniq_id}': # GET PUT
+  $ref: "paths/webapp/user/uniq-id.yaml"
+
+'/clients/logo':
+  $ref: "paths/clients/logo.yaml"
+'/clients/logo/{uniq_id}':
+  $ref: "paths/clients/logo-uniq-id.yaml"
+
+#'/projects/{uniq_id}/onsite': # GET
+#  $ref: "paths/projects/uniq-id-onsite.yaml"
+#
+'/employee/{uniq_id}':
+  $ref: "paths/employee/uniq-id.yaml"
+
+#
+# Must be admin; do when started on web-app
+# POST /user/admin/ # (create new user)
+#
+# DELETE /projects/admin/{uniq_id}
+# POST /projects/admin/
+# PUT /projects/admin/{uniq_id}
+# POST /projects/link-user/ (link user)
+# DELETE /projects/link-user/ (unlink user)
+#
+# Must be superadmin; do when started on web-app
+# DELETE /clients/{uniq_id}/
+# PUT /clients/
+# POST /clients/
+# GET /clients/logo/{uniq_id}
+# PUT /clients/logo
+

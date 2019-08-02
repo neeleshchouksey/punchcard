@@ -1,0 +1,109 @@
+Project:
+  type: object
+  required:
+    - name
+    - startDate
+    - endDate
+    - latitude
+    - longitude
+    - radius
+  properties:
+    name:
+      type: string
+      example: Project Dach-Purdy
+      description: The project name
+    uniq_id:
+      type: string
+      example: 5c61344b-70e5-3b37-94f4-3e5137d6b761
+      description: The unique UUID for this project
+    description:
+      type: string
+      example: A aut quia quo facere.
+      description: The project description
+    startDate:
+      type: string
+      example: "2016-09-19 17:07:49"
+      description: The start date for this project
+    endDate:
+      type: string
+      example: "2016-10-19 09:00:25"
+      description: The end date for this project
+    latitude:
+      type: number
+      example: -88.261035
+      description: The latitude of the center-point fence
+    longitude:
+      type: number
+      example: -47.3623
+      description: The longitude of the center-point fence
+    radius:
+      type: integer
+      example: 39
+      description: The radius of the point fence
+    distAway:
+      type: string
+      example: 24
+      description: "TODO - clarification; how to find this; will mobile apps send location data?"
+    onSite:
+      type: string
+      example: 9
+      description: How many users are actively onsite at this moment
+    asType:
+      type: string
+      example: user
+      description: "Is the user seeing these results because they are in the projects pivot table as a user or superuser?"
+    logo:
+      type: string
+      format: url
+      example: http://companya.example.org/api/v1.0/projects/b6b17a25-c449-3122-a448-e11bd1a82be7/logo
+      description: URL of the client's logo
+    client:
+      type: object
+      description: the client this project belongs to
+      properties:
+        uniq_id:
+          type: string
+          format: uuid
+          example: b6b17a25-c449-3122-a448-e11bd1a82be7
+          description: Unique UUID of the client that owns this project
+        name:
+          type: string
+          example: Schamberger-Hirthe
+          description: Client name that owns this project
+        logo:
+          type: string
+          format: url
+          example: http://api.example.org/api/v1.0/clients/logo/b6b17a25-c449-3122-a448-e11bd1a82be7
+          description: URL of the client's logo
+Projects:
+  type: array
+  items:
+    $ref: "ProjectsDefinition.yaml#/Project"
+
+Employee:
+  type: object
+  required:
+    - name
+    - uniq_id
+  properties:
+    id:
+      type: number
+      example: 22
+    name:
+      type: string
+      example: Fred Smith
+    uniq_id:
+      type: string
+      example: b6b17a25-c449-3122-a448-e11bd1a82be7
+    lastCheckIn:
+      type: string
+      example: "2016-09-24 23:22:20"
+    lastCheckOut:
+      type: string
+      example: "2016-09-24 23:25:20"
+
+Employees:
+  type: array
+  items:
+    $ref: "ProjectsDefinition.yaml#/Employee"
+

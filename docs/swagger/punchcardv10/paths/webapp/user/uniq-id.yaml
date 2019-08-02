@@ -1,0 +1,43 @@
+get:
+  tags:
+    - web-app
+    - user
+  summary: View Own Profile
+  description: |
+    ## Testing
+
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  responses:
+    200:
+      description: Results of a webapp user retrieving own profile information
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: successfully retrieved 1 record
+          data:
+            $ref: "../../../definitions/user/UserDefinition.yaml#/User"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"

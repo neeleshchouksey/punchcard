@@ -1,0 +1,28 @@
+get:
+  tags:
+    - mobile-app
+    - projects
+    - images
+  summary: Any user can view a project logo by uniq_id.
+  description: |
+    ## Testing
+
+      This endpoint should be tested to be accessible by any user, logged in or not. The reason for this is the
+      relationship between the subdomains makes it difficult (perhaps impossible) to lock down a logo to a logo but not
+      have issues with parent and child companies viewing them.
+
+  produces:
+    - image/png
+  parameters:
+    - name: uniq_id
+      in: path
+      description: The uniq_id (UUID) of the project
+      required: true
+      type: string
+  responses:
+    200:
+      description: The project's logo
+      schema:
+        type: file
+    404:
+      $ref: "../../responses.yaml#/responses/NotFoundResponse"

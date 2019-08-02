@@ -1,0 +1,44 @@
+get:
+  tags:
+    - mobile-app
+    - projects
+  summary: View one project user has access to view
+  description: |
+    ## Testing
+
+    This endpoint should only be availabe to a `superuser` or above. Please try it as a `user` for each round of regression to
+    ensure that a `user` cannot use this endpoint.
+
+    This endpoint should show a list of users that are on a specific project, and include whether they are punched in or not,
+    and when the last time they punched in or out of this project was.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  responses:
+    200:
+      description: "Ok; superuser or better consumer receives list of the project's users - project defined by <uniq_id>"
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: Retrieved 10 records
+          data:
+            $ref: "../../definitions/projects/ProjectsDefinition.yaml#/Onsite"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

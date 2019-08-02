@@ -1,0 +1,85 @@
+// theme color defs
+$theme-black: #020C0C;
+$theme-dark-blue: #0B2C44;
+$theme-dark-red: #210003;
+$theme-med-blue: #1C4366;
+$theme-cadet: #5C6D70;
+$theme-licorice: #111415;
+$theme-slate: #424a5d;
+$theme-gold: #ffd777;
+$theme-success-green: #22661B;
+$theme-failure-red: #822121;
+$theme-aqua: #00AFAD;
+$theme-cerulean: #00A7E1;
+$theme-white: #F9F9F7;
+$theme-gray: #9F9F9E;
+$theme-orange: #ff865c;
+$theme-light-gray: lighten($theme-gray, 30%);
+$font-family-sans-serif:  "Catamaran", Helvetica, Arial, sans-serif !default;
+
+$primary-color: $theme-black;
+
+$box-shadow-transition:  all 0.1s cubic-bezier(.25,.8,.25,1);
+$main-box-shadow:        0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+$main-box-shadow-hover:  0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
+$minor-box-shadow-hover: 0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
+
+$project-card-padding: 17px;
+
+// Body
+$body-bg: #f5f8fa; 
+
+// Backgrounds
+$bg-monotone: #ccc;
+
+// Borders
+$laravel-border-color: darken($body-bg, 10%);
+$list-group-border: $laravel-border-color;
+$input-default-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+// Brands
+$brand-primary: #3097D1;
+$brand-info: #8eb4cb;
+$brand-success: #2ab27b;
+$brand-warning: #cbb956;
+$brand-danger:  #bf5329;
+
+// Typography
+$font-family-sans-serif: "Catamaran", sans-serif;
+$font-size-base: 16px;
+$line-height-base: 1.6;
+$text-color: #636b6f;
+$text-color-opposite: #eee;
+
+// Elements
+$list-element-major-bg: #eee;
+$list-element-major-border: darken($list-element-major-bg, 20%);
+$list-element-major-hover-bg: lighten($list-element-major-bg, 10%);
+$list-element-major-hover-border: lighten($list-element-major-border, 10%);
+$list-element-major-font-color: #111;
+
+// Navbar
+$navbar-default-color: $theme-dark-red;
+$navbar-default-bg: $navbar-default-color;
+$navbar-hover-bg: lighten($navbar-default-bg, 10%);
+$navbar-inverse-bg: $theme-licorice;
+
+// Buttons
+$btn-default-color: $text-color;
+
+// Inputs
+$input-border: lighten($text-color, 40%);
+$input-border-focus: lighten($brand-primary, 25%);
+$input-color-placeholder: lighten($text-color, 30%);
+$input-border: $theme-dark-blue;
+// Panels
+$panel-default-heading-bg: #fff;
+
+
+// General
+$general-border-radius: 5px;
+$link-color: #111;
+$link-hover-color: $link-color;

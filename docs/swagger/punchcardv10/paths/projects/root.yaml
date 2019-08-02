@@ -1,0 +1,41 @@
+get:
+  tags:
+    - mobile-app
+    - projects
+  summary: View Own Projects
+  description: |
+    ## Testing
+
+    This endpoint shows a list of projects the user is on, if any. For the test data-seeding, all active users should be tied
+    to a project, though that might change in future seeding rounds.
+
+    Please pay close attention to the data structure and validate the order of results and verify this documentation is accurate.
+
+    Please note the /projects/{uniq_id} endpoint testing about being added/removed from projects to verify the same here.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: Ok; receives a list of a projects the user is on
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: Successfully retrieved 10 projects
+          data:
+            $ref: "../../definitions/projects/ProjectsDefinition.yaml#/Project"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

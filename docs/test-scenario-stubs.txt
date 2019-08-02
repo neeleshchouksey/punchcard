@@ -1,0 +1,6 @@
+1. Go to /dev/clients
+1. Choose active parent company
+1. Choose active 'clientadmin'
+1. Login using a valid login at their domain
+
+

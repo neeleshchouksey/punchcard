@@ -1,0 +1,46 @@
+get:
+  tags:
+    - web-app
+    - admin
+    - projects
+  summary: View one project as admin or superadmin. Admin sees project only in own company.
+  description: |
+    ## Testing
+
+    Show one project.  Since this is as an admin, this should be ALL the projects in the company.
+    Please compare to the /dev/clients/ system.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: uniq_id
+      in: path
+      required: true
+      type: string
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  responses:
+    200:
+      description: Ok; receives a list of a projects for the client/company
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: Successfully retrieved 10 projects
+          data:
+            $ref: "../../../definitions/projects/ProjectsDefinition.yaml#/Project"
+    401:
+      $ref: "../../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../../responses.yaml#/responses/NotAuthorizedResponse"

@@ -1,0 +1,60 @@
+get:
+  tags:
+    - mobile-app
+    - user
+    - checks
+  summary: User views own checkins
+  description: |
+    ## Testing
+
+    This endpoint shows an authenticated user their checkin history. They can see the list, spanning projects.
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: Results of a user viewing own profile
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: 20 checkins found
+          data:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string
+                  example: "Project: Flowers By Irene"
+                checkInDateTime:
+                  type: string
+                  format: date-time
+                  example: "2016-10-03 21:54:13"
+                checkOutDateTime:
+                  type: string
+                  format: date-time
+                  example: "2016-10-03 21:54:57"
+                project:
+                    type: object
+                    properties:
+                      uniq_id:
+                        type: string
+                        format: uuid
+                        example: 24de4935-f1ba-38b3-b44e-96fcd8e9ccab
+                      name:
+                        type: string
+                        example: "Project: Jacobs Inc"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"

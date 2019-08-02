@@ -1,0 +1,36 @@
+Badge:
+  description: Information to build a badge
+  type: object
+  properties:
+    http_code:
+      type: integer
+      example: 200
+    result:
+      type: string
+      example: success
+    message:
+      type: string
+      example: successfully retrieved badge
+    data:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "James Smith-Jones"
+        badge_id:
+          type: number
+          example: "55"
+        client_name:
+          type: string
+          example: "ABC Company"
+        project_name:
+          type: string
+          example: "Project ABC Building"
+        qr_location:
+          type: string
+          format: url
+          example: "http://domain.com/api/ver/badge/{user_uniq_id}/{project_uniq_id}"
+        avatar_location:
+          type: string
+          format: url
+          example: http://domain.com/api/ver/user/avatar/{uniq_id}

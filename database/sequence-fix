@@ -1,0 +1,44 @@
+checks
+clients
+industries
+permission_user
+permissions
+project_user
+projects
+sectors
+user_logs
+users
+
+SELECT MAX(id) from user_logs;
+SELECT nextval('user_logs_id_seq');
+SELECT MAX(id) FROM checks;
+SELECT nextval('checks_id_seq');
+SELECT MAX(id) FROM clients;
+SELECT nextval('clients_id_seq');
+SELECT MAX(id) FROM industries;
+SELECT nextval('industries_id_seq');
+SELECT MAX(id) FROM permission_user;
+SELECT nextval('permission_user_id_seq');
+SELECT MAX(id) FROM permissions;
+SELECT nextval('permissions_id_seq');
+SELECT MAX(id) FROM project_user;
+SELECT nextval('project_user_id_seq');
+SELECT MAX(id) FROM projects;
+SELECT nextval('projects_id_seq');
+SELECT MAX(id) FROM sectors;
+SELECT nextval('sectors_id_seq');
+SELECT MAX(id) FROM users;
+SELECT nextval('users_id_seq');
+
+SELECT setval('checks_id_seq', (SELECT MAX(id) FROM checks));
+
+SELECT setval('clients_id_seq', (SELECT MAX(id) FROM clients));
+SELECT setval('industries_id_seq', (SELECT MAX(id) FROM industries));
+SELECT setval('permission_user_id_seq', (SELECT MAX(id) FROM permission_user));
+SELECT setval('permissions_id_seq', (SELECT MAX(id) FROM permissions));
+SELECT setval('project_user_id_seq', (SELECT MAX(id) FROM project_user));
+SELECT setval('projects_id_seq', (SELECT MAX(id) FROM projects));
+SELECT setval('sectors_id_seq', (SELECT MAX(id) FROM sectors));
+SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+SELECT setval('user_logs_id_seq', (SELECT MAX(id) FROM user_logs));
+SELECT setval('checks_id_seq', (SELECT MAX(id) FROM checks));

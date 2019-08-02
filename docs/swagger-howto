@@ -1,0 +1,28 @@
+To Edit:
+    window 1: (for the main editor; :8081)
+        cd ~/Code/dev/bin/ && ./swagger-ed
+    window 2: (needed to $ref to work; basic server just needs --cors and the main.yaml file to be in the root; probably :8082)
+        cd ~/to/the/location/of/your/main.yaml && ~/Code/dev/bin/swagger-ed-endpoint
+
+    Load main editor: http://127.0.0.1:8081/#/
+    Make sure Preferences -> Preferences -> Pointer Resolution Base Path is set to the ed-endpoint address, maybe:
+      http://127.0.0.1:8082/
+      This server needs to be started so that the main.yaml file that includes all the references is there.
+
+   Edit, reload, etc. Might need to disable cache in Dev Tools to see some changes.
+
+To Generate:
+    The problem is that swagger is young and it's painful to get it all. I like the separate yaml files, and thankfully
+    there was a gulp require to combine the yaml and spit out json. Whew!
+
+    https://github.com/gersongoulart/gulp-swagger
+    Follow instructions to generate json, which will linked by unique-site-name.json in future steps.
+
+To View:
+    ln -s the json generated into the root, or create a route, like:
+
+        Route::get('/dev/swagger.json', function () {
+            return File::get(base_path('docs/swagger/punchcardv10.json'));
+        });
+
+    http://swagger.dev/?url=http://api.punchcardinc.dev/dev/swagger.json

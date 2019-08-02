@@ -1,0 +1,261 @@
+get:
+  tags:
+    - mobile-app
+    - user
+    - checks
+  summary: Test if authenticated user is checked in
+  description: |
+
+        ## Testing
+
+        This endpoint allows the client-applications (aka Consumer) to verify if the user is already checked-in to a
+        project. Since the user can only get checked into one thing at a time, no further data is required beyond that
+        the user is authenticated.
+
+        ## Helper Video
+
+        - https://youtu.be/n4rGs7fj0M8 - 001 Check In/Out
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+  responses:
+    200:
+      description: |
+
+        **Checked in/out**
+        - 200 is valid for if they are checked in or if they are not.
+        - Will provide a project uniq_id if they are checked in
+        - `uniq_id` will be null if not checked in
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: Already checked in
+          data:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: "3807"
+              uniq_id:
+                type: string
+                example: "846ebe7a-594b-4085-9f29-7730c0f878c6"
+              checkInDateTime:
+                type: string
+                example: "2016-10-20 14:22:48"
+              project_id:
+                type: integer
+                example: "12"
+              project:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: "3807"
+                  uniq_id:
+                    type: string
+                    example: "846ebe7a-594b-4085-9f29-7730c0f878c6"
+                  name:
+                    type: string
+                    example: "Project: Sanford PLC"
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+post:
+  tags:
+    - mobile-app
+    - user
+    - checks
+  summary: Check in to a project
+  description: |
+
+    ## Testing
+
+    This endpoint created a check-in. The user can only be checked into one thing at a time, so it checks
+    if they are already checked in to something, and if so, returns an error message stating so. If not, it shows
+    that they are now checked into the project represented by `{uniq_id}`
+
+    If they are already checked in, a message will display saying they are checked in, instead.
+    `exceptionReason` is required as a field, but a value is not required.
+    It should be null if there is no reason. If there is anything besides `null`, it is logged!
+
+    Note on 10/23/16 - I changed the validation on `exceptionReason` and it wasn't nullable for a short time. It is fixed now. - Hans
+
+    **10/25/16 - Added requirements for all but user_id. The user_id field can be:**
+
+      - null, if checkMethod is 'geo'
+      - uuid, if checkMethod is 'qr' (scanning QR badge barcode)
+
+    **10/27/2016 - removed ` - integer, if checkMethod is 'manual' (aka: badge ID checkin)` - badge/manual checkin point moved to /check/badge and the badge_id is project_user.id**
+
+    **10/31/2016 - MOVED "manual" (badge) and "qr" to /check/badge and /check/qr respectively. Also: checkMethod is no longer required; user_id is no longer required.**
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        required:
+        - uniq_id
+        - latitude
+        - longitude
+        - exceptionReason
+        description: POST to check in
+        properties:
+          uniq_id:
+            type: string
+            example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+          latitude:
+            type: string
+            example: "40.0234"
+          longitude:
+            type: string
+            example: "-80.3343"
+          exceptionReason:
+            type: string
+            example: "My GPS is down | null"
+  responses:
+    200:
+      description: |
+        **Check IN**
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: checked-in
+          data:
+            type: object
+            properties:
+              check_uniq_id:
+                type: string
+                example: "846ebe7a-594b-4085-9f29-7730c0f878c6"
+    422:
+      description: |
+        **ALREADY Checked IN**
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 422
+          result:
+            type: string
+            example: error
+          message:
+            type: string
+            example: Checkin failed; already checked in
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
+put:
+  tags:
+    - mobile-app
+    - user
+    - checks
+  summary: Check out from a project
+  description: |
+
+    ## Testing
+
+    This endpoint will check a user out. Because a user will need to be checked in, in order to check out, this will
+    check if they are already checked-in.  If they are not yet checked in, it will respond with an error saying so.
+
+    If they are not checked in, a message will display saying they are not checked in, instead.
+    `exceptionReason` is required as a field, but a value is not required.
+    It should be null if there is no reason. If there is anything besides `null`, it is logged!
+
+    Note on 10/23/16 - I changed the validation on `exceptionReason` and it wasn't nullable for a short time. It is fixed now. - Hans
+
+    **10/25/16 - Added requirements for all but user_id. The user_id field can be:**
+
+      - null, if checkMethod is 'geo'
+      - integer, if checkMethod is 'manual' (aka: badge ID checkin)
+      - uuid, if checkMethod is 'qr' (scanning QR badge barcode)
+
+    **10/27/2016 - removed ` - integer, if checkMethod is 'manual' (aka: badge ID checkin)` - badge/manual checkin point moved to /check/badge and the badge_id is project_user.id**
+
+    **10/31/2016 - MOVED "manual" (badge) and "qr" to /check/badge and /check/qr respectively. Also: checkMethod is no longer required; user_id is no longer required.**
+
+  parameters:
+    - name: Authorization
+      in: header
+      required: true
+      type: string
+    - name: payload
+      in: body
+      required: true
+      schema:
+        description: PUT to check OUT
+        properties:
+          uniq_id:
+            type: string
+            example: "09cf7c43-c6cc-40b8-8694-365eb4c58296"
+          latitude:
+            type: string
+            example: "40.0234"
+          longitude:
+            type: string
+            example: "-80.3343"
+          exceptionReason:
+            type: string
+            example: "I forgot to check out | null"
+  responses:
+    200:
+      description: |
+        **Check OUT**
+
+        To check out you must already be checked in.
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 200
+          result:
+            type: string
+            example: success
+          message:
+            type: string
+            example: checked-out
+    422:
+      description: |
+        **NOT Checked IN**
+      schema:
+        type: object
+        properties:
+          http_code:
+            type: integer
+            example: 422
+          result:
+            type: string
+            example: error
+          message:
+            type: string
+            example: Checkout failed; not checked in
+    401:
+      $ref: "../../responses.yaml#/responses/NotAuthenticatedResponse"
+    403:
+      $ref: "../../responses.yaml#/responses/NotAuthorizedResponse"
